@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block titre %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="{{ asset("css/style.css") }}">-->
+</head>
+<body>
+{% set route_name = app.request.attributes.get('_route') %}
+<div class="top-bar">
+    <div class="top-bar-right">
+
+        <a class="navbar-brand m-3" href="{{ path('home' )}}">
+             <span style="font-size: 30px; ">
+                <i class="fas fa-user-friends"></i>
+            </span>
+            Liste de personnes</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item   {% if route_name == "home" %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('home' )}}">Home
+                        {% if route_name == "home" %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
+                </li>
+                <li class="nav-item {% if route_name == "app_login" %}active{% endif %}">
+
+                    {%  if is_granted('ROLE_USER') %}
+                        <p>{{ app.user.getUsername }}</p>
+                    {% else %}
+                        <a class="nav-link" href="{{path('app_login' )}}">login</a>
+                        {% if route_name == "login" %}<span class="sr-only">(current)</span>{% endif %}
+                    {% endif %}
+
+
+                </li>
+                <li class="nav-item {% if route_name == "register" %}active{% endif %}">
+                    {%  if is_granted('ROLE_ADMIN') %}<a class="nav-link" href="{{path('register' )}}">S'enregistrer</a>
+                        {% if route_name == "register" %}<span class="sr-only">(current)</span>{% endif %}{%  endif %}
+                </li>
+                <li class="nav-item {% if route_name == "app_logout" %}active{% endif %}">
+                    {%  if is_granted('ROLE_USER') %}<a class="nav-link" href="{{path('app_logout' )}}">Se deconnecter</a>
+                        {% if route_name == "register" %}<span class="sr-only">(current)</span>{% endif %}{%  endif %}
+                </li>
+                <li class="nav-item {% if route_name == "register" %}active{% endif %}">
+                    {%  if is_granted('ROLE_ADMIN') %}<a class="nav-link" href="{{path('userHome' )}}">Utilisateurs</a>
+                        {% if route_name == "register" %}<span class="sr-only">(current)</span>{% endif %}{%  endif %}
+                </li>
+
+
+
+
+            </ul>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
