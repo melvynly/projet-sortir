@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/site")
  */
+
+
 class SiteController extends AbstractController
 {
     /**
@@ -79,15 +81,13 @@ class SiteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="site_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="site_delete")
      */
     public function delete(Request $request, Site $site): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$site->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($site);
-            $entityManager->flush();
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($site);
+        $entityManager->flush();
 
         return $this->redirectToRoute('site_index');
     }

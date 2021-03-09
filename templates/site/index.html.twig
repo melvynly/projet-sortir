@@ -1,9 +1,9 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}Site index{% endblock %}
+{% block title %}Listes des sites{% endblock %}
 
 {% block body %}
-    <h1>Site index</h1>
+    <h1>Listes des sites</h1>
 
     <table class="table">
         <thead>
@@ -21,6 +21,7 @@
                 <td>
                     <a href="{{ path('site_show', {'id': site.id}) }}">show</a>
                     <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
+                    <a href="{{ path('site_delete', {'id': site.id}) }}">delete</a>
                 </td>
             </tr>
         {% else %}
