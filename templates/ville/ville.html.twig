@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les villes{% endblock %}
+
+{% block body %}
+    <h1>Gérer les villes</h1>
+
+    <div>
+        <h3>Filtrer les villes</h3>
+        <p>Le nom contient:
+            <input type="text">
+            <button type="submit">Rechercher</button>
+        </p>
+    </div>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ville in villes %}
+            <tr>
+                <td>{{ ville.nom }}</td>
+                <td>{{ ville.codePostal }}</td>
+                <td>
+                    <a href="{{ path('ville_edit', {'id': ville.id}) }}">Modifier</a>
+                    <a
+                            onclick="return confirm('Voulez vous supprimer {{ ville.nom }}  ?')"
+                            href="{{ path('ville_delete', {'id': ville.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+
+            <tr>{{ form_start(formNew) }}
+                <td>{{ form_row(formNew.nom) }}</td>
+                <td>{{ form_row(formNew.codePostal) }}</td>
+                <td><a href="{{ path('ville')}}">Ajouter</a></td>
+                {{ form_end(formNew) }}
+            </tr>
+
+
+        </tbody>
+    </table>
+
+{% endblock %}
