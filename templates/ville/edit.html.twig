@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Ville{% endblock %}
+
+{% block body %}
+    <h1>Modifier la  Ville</h1>
+
+    <div>
+        {{ form_start (formEdit) }}
+        {{ form_widget (formEdit) }}
+        <button type="submit">Modifier</button>
+        {{ form_end (formEdit) }}
+
+    </div>
+
+
+    <a href="{{ path('ville') }}">Retour à la liste des villes</a>
+
+{% endblock %}
