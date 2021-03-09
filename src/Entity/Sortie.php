@@ -83,6 +83,12 @@ class Sortie
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Ville::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $villes;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -245,6 +251,18 @@ class Sortie
     public function setOrganisateur(?Participant $organisateur): self
     {
         $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getVilles(): ?Ville
+    {
+        return $this->villes;
+    }
+
+    public function setVilles(?Ville $villes): self
+    {
+        $this->villes = $villes;
 
         return $this;
     }
