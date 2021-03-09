@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block titre %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="{{ asset("css/style.css") }}">-->
+</head>
+<body>
+{% set route_name = app.request.attributes.get('_route') %}
+
+
+<div class="top-bar">
+
+    <div class="top-bar-left ">
+
+        <div class="row">
+            <img src="{{ asset('images/eni.png') }}" width="100" height="100">
+        </div>
+
+    </div>
+
+    <div class="top-bar-right ">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <a class="nav-link">Villes
+            </a>
+
+            <a class="nav-link">Sites
+            </a>
+
+            <a class="nav-link">S'enregistrer</a>
+
+            <a class="nav-link">Se deconnecter</a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<section class="container">
+    {% block body %} {% endblock %}
+</section>
+
+
+</body>
+</html>

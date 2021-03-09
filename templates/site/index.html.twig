@@ -1,0 +1,36 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Listes des sites{% endblock %}
+
+{% block body %}
+    <h1>Listes des sites</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td>{{ site.id }}</td>
+                <td>{{ site.nom }}</td>
+                <td>
+                    <a href="{{ path('site_show', {'id': site.id}) }}">show</a>
+                    <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
+                    <a href="{{ path('site_delete', {'id': site.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('site_new') }}">Create new</a>
+{% endblock %}
