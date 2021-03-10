@@ -1,27 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'template.html.twig' %}
 
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Participant</h1>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ user.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -40,8 +28,12 @@
                 <td>{{ user.mail }}</td>
             </tr>
             <tr>
-                <th>Actif</th>
-                <td>{{ user.actif ? 'Yes' : 'No' }}</td>
+                <th>Pseudo</th>
+                <td>{{ user.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Mdp</th>
+                <td>{{ user.password }}</td>
             </tr>
             <tr>
                 <th>Photo</th>
@@ -50,9 +42,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <a href="{{ path('user_index') }}" class="button">back to list</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('user_edit', {'id': user.id}) }}" class="warning button">edit</a>
 
-    {{ include('user/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ include('user/_delete_form.html.twig') }}
+    {% endif %}
+
 {% endblock %}
