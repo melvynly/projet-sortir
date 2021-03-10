@@ -41,8 +41,8 @@
         {% endfor %}
 
             <tr>{{ form_start(formNew) }}
-                <td>{{ form_row(formNew.nom) }}</td>
-                <td>{{ form_row(formNew.codePostal) }}</td>
+                <td>{{ form_widget(formNew.nom) }}</td>
+                <td>{{ form_widget(formNew.codePostal) }}</td>
                 <td><a href="{{ path('ville')}}">Ajouter</a></td>
                 {{ form_end(formNew) }}
             </tr>

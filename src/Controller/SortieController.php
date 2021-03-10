@@ -6,7 +6,9 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +33,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em, EtatRepository $repoEtat): Response
+    public function new(Request $request, EntityManagerInterface $em, UserRepository $repoUser, SiteRepository $repoSite, EtatRepository $repoEtat): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
@@ -42,6 +44,16 @@ class SortieController extends AbstractController
             // je mets d'office l'état de la sortie à Créée.
             $etat= $repoEtat->findOneBy(["libelle" =>'Créée']);
             $sortie->setEtat($etat);
+
+            //TODO rattacher la sortie a l'organisateur
+            // je mets d'office un site avec le repoSite
+            $site= $repoSite->findOneBy(["nom"=>'La roche sur yon']);
+            $sortie->setSite($site);
+
+            //TODO rattacher la sortie a l'organisateur
+            // je mets d'office un organisateur avec le repoUser
+            $organisateur= $repoUser->findOneBy(["pseudo"=>'croc']);
+            $sortie->setOrganisateur($organisateur);
 
 
             $em->persist($sortie);
