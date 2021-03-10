@@ -30,15 +30,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
 
-            <a class="nav-link">Villes
+            {%  if is_granted('ROLE_ADMIN') %}<a class="nav-link" href="{{path('ville')}}">Villes
             </a>
+            {% endif %}
 
-            <a class="nav-link">Sites
+            {%  if is_granted('ROLE_ADMIN') %} <a class="nav-link" href="{{path('site_index')}}">Sites
             </a>
+            {% endif %}
 
-            <a class="nav-link">S'enregistrer</a>
+            <a class="nav-link" href="{{path('sortie_index' )}}">Accueil</a>
 
-            <a class="nav-link">Se deconnecter</a>
+            {%  if is_granted('ROLE_USER') %}
+
+                <a class="nav-link" href="{{path('user_show',{'id': app.user.id })}}">Mon profil</a>
+
+                <a class="nav-link" href="{{path('app_logout' )}}">Se déconnecter</a>
+
+
+            {% else %}
+
+            <a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+
+            <a class="nav-link" href="{{path('register')}}">S'enregistrer</a>
+
+            {% endif %}
 
         </div>
 
