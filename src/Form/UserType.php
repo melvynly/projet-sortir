@@ -13,7 +13,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('pseudo')
-            ->add('roles')
+            //->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
@@ -21,8 +21,8 @@ class UserType extends AbstractType
             ->add('mail')
             ->add('actif')
             ->add('photo')
-            ->add('site')
-            ->add('sorties')
+            ->add('site',null,["choice_label"=>"nom"])
+            ->add('sorties',null,["choice_label"=>"nom"])
         ;
     }
 
