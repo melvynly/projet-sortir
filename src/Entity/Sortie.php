@@ -72,16 +72,6 @@ class Sortie
      */
     private $site;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
-     */
-    private $participants;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $organisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Ville::class)
@@ -89,10 +79,22 @@ class Sortie
      */
     private $villes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sorties")
+     */
+    private $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sortiesOrga")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -219,41 +221,6 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return Collection|Participant[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-
-    public function addParticipant(Participant $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(Participant $participant): self
-    {
-        $this->participants->removeElement($participant);
-
-        return $this;
-    }
-
-    public function getOrganisateur(): ?Participant
-    {
-        return $this->organisateur;
-    }
-
-    public function setOrganisateur(?Participant $organisateur): self
-    {
-        $this->organisateur = $organisateur;
-
-        return $this;
-    }
 
     public function getVilles(): ?Ville
     {
@@ -263,6 +230,42 @@ class Sortie
     public function setVilles(?Ville $villes): self
     {
         $this->villes = $villes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }
