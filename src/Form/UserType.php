@@ -22,7 +22,7 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('telephone')
             ->add('mail', null,  ['label'=>'Email'])
-            ->add('actif')
+           // ->add('actif')
 
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -44,6 +44,7 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
+
         ;
     }
 

@@ -31,9 +31,9 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="sortie_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em, UserRepository $repoUser, SiteRepository $repoSite, EtatRepository $repoEtat): Response
+    public function new($id,Request $request, EntityManagerInterface $em, UserRepository $repoUser, EtatRepository $repoEtat): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
@@ -41,19 +41,31 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // je mets d'office l'état de la sortie à Créée.
-            $etat= $repoEtat->findOneBy(["libelle" =>'Créée']);
-            $sortie->setEtat($etat);
+            if ($form->get('enregistrer')->isClicked()){
 
-            //TODO rattacher la sortie a l'organisateur
-            // je mets d'office un site avec le repoSite
-            $site= $repoSite->findOneBy(["nom"=>'La roche sur yon']);
-            $sortie->setSite($site);
+                // je mets d'office l'état de la sortie à Créée.
+                $etat= $repoEtat->findOneBy(["libelle" =>'Créée']);
+                $sortie->setEtat($etat);
+            }
+            if ($form->get('publier')->isClicked()){
 
-            //TODO rattacher la sortie a l'organisateur
-            // je mets d'office un organisateur avec le repoUser
-            $organisateur= $repoUser->findOneBy(["pseudo"=>'croc']);
+                // je mets d'office l'état de la sortie à Créée.
+                $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
+                $sortie->setEtat($etat);
+            }
+            if ($form->get('annuler')->isClicked()){
+                //TODO rediriger vers la page d'accueil
+//                return $this->redirectToRoute('');
+            }
+
+
+            //je mets d'office la personne identifié comme organisatrice
+            $organisateur= $repoUser->find($id);
             $sortie->setOrganisateur($organisateur);
+
+            //je mets d'office le site de l'organisateur
+            $site= $organisateur->getSite();
+            $sortie->setSite($site);
 
 
             $em->persist($sortie);

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/ville")
+ * @Route("/admin/ville")
  */
 class VilleController extends AbstractController
 {
@@ -21,23 +21,31 @@ class VilleController extends AbstractController
      */
     public function home(VilleRepository $repo, Request $request, EntityManagerInterface $em): Response
     {
-        $villes = $repo->findAll();
 
-        $ville = new Ville();
-        $form = $this->createForm(VilleType::class, $ville);
-        $form->handleRequest($request);
+        if($this->denyAccessUnlessGranted('ROLE_ADMIN')){
+            return $this->render('site/index.html.twig');
+        }
+        else{
+            $villes = $repo->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($ville);
-            $em->flush();
+            $ville = new Ville();
+            $form = $this->createForm(VilleType::class, $ville);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('ville');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($ville);
+                $em->flush();
+
+                return $this->redirectToRoute('ville');
+            }
+
+            return $this->render('ville/ville.html.twig', [
+                'villes'=>$villes,
+                'formNew' => $form->createView(),
+            ]);
         }
 
-        return $this->render('ville/ville.html.twig', [
-            'villes'=>$villes,
-            'formNew' => $form->createView(),
-        ]);
+
 
     }
 
