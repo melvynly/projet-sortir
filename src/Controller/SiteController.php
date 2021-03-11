@@ -11,9 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/site")
+ * @Route("/admin/site")
  */
-
 
 class SiteController extends AbstractController
 {
@@ -22,9 +21,12 @@ class SiteController extends AbstractController
      */
     public function index(SiteRepository $siteRepository): Response
     {
-        return $this->render('site/index.html.twig', [
-            'sites' => $siteRepository->findAll(),
-        ]);
+        if($this->denyAccessUnlessGranted('ROLE_USER')){
+            return $this->render('site/index.html.twig');
+        }
+        else{
+            return $this->render('sortie/index.html.twig');
+        }
     }
 
     /**

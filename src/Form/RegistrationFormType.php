@@ -19,14 +19,14 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('pseudo')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
+            ->add('nom')
+            ->add('prenom')
+            ->add('telephone')
+            ->add('mail')
+            ->add('actif')
+            ->add('photo')
+            ->add('site',null,["choice_label"=>"nom"])
+            ->add('sorties',null,["choice_label"=>"nom"])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -43,7 +43,6 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'ROLE_USER' => 'ROLE_USER',
@@ -52,14 +51,15 @@ class RegistrationFormType extends AbstractType
                 'multiple'=>true
             ])
 
-            ->add('nom')
-            ->add('prenom')
-            ->add('telephone')
-            ->add('mail')
-            ->add('actif')
-            ->add('photo')
-            ->add('site',null,["choice_label"=>"nom"])
-            ->add('sorties',null,["choice_label"=>"nom"])
+
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
+            ])
         ;
     }
 

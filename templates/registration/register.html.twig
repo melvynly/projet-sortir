@@ -10,12 +10,12 @@
     <h1>Register</h1>
 
     {{ form_start(form) }}
-        {{ form_row(form.pseudo) }}
-        {{ form_row(form.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(form.agreeTerms) }}
+        {{ form_widget(form) }}
 
-        <button type="submit" class="btn">Register</button>
+
+
+    <button type="submit" class="btn">Register</button>
     {{ form_end(form) }}
+
+
 {% endblock %}
