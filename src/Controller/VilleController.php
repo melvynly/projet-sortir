@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/ville")
+ *
  */
 class VilleController extends AbstractController
 {
@@ -44,9 +45,6 @@ class VilleController extends AbstractController
                 'formNew' => $form->createView(),
             ]);
         }
-
-
-
     }
 
     // methode DELETE not allowed à l'ENI

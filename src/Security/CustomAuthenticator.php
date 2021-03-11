@@ -4,6 +4,8 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,7 +69,22 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
+
+        #On regarde si $credentials['pseudo'] contient une adresse mail valide ou un pseudo
+
+        #La fonction filter_var permet de filtrer une variable avec un filtre spécifique
+        #FILTER_VALIDATE_EMAIL permet de vérifier que l'adresse mail rentrée est une adresse mail valide.
+        if (filter_var($credentials['pseudo'], FILTER_VALIDATE_EMAIL)) {
+            #$credentials['pseudo'] contient une adresse mail valide
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['mail' => $credentials['pseudo']]);
+        }
+        else{
+            #$credentials['pseudo'] contient un pseudo
+
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
+        }
+
+
 
         if (!$user) {
             // fail authentication with a custom error
@@ -90,18 +107,30 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey):Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+
+        $response = new RedirectResponse($this->urlGenerator->generate('sortie_index'));
+
+        return $response;
+
+        /*if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
+        #$this->getResponse()->setCookie('remember_me');
+
         return new RedirectResponse($this->urlGenerator->generate('sortie_index'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);*/
     }
 
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+
+    public function supportsRememberMe()
+    {
+        return true;
     }
 }
