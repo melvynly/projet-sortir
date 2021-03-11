@@ -1,0 +1,14 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Edit user{% endblock %}
+
+{% block body %}
+    <h1>Edit user</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+    <button type="reset">Annuler</button>
+
+    <a href="{{ path('user_index') }}">Retour</a>
+
+    {#  {{ include('user/_delete_form.html.twig') }}#}
+{% endblock %}
