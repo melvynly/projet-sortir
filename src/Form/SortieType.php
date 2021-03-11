@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Sortie;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,10 +19,13 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription',null, ['label'=>'Date limite d\'inscription'])
             ->add('nbrePlacesMax')
             ->add('duree')
-            ->add('description')
+            ->add('description', null, ['label'=>'Description et infos'])
             ->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
 
             ->add('lieu',null,['choice_label'=>'nom'])
+            ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
+            ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
+            ->add('annuler', SubmitType::class, ['label' => 'Annuler'])
 
 //            ->add('villes', null, array(
 //                'class'    => 'Bundle:Ville',

@@ -6,8 +6,21 @@
     <h1>Créer une Sortie</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.nom) }}
+    {{ form_row(form.dateHeureDebut) }}
+    {{ form_row(form.dateLimiteInscription) }}
+    {{ form_row(form.nbrePlacesMax) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.description) }}
+    <div>Ville organisatrice: {{ app.user.site.nom}} </div>
+    {{ form_row(form.villes) }}
+    {{ form_row(form.lieu) }}
+    <div>
+        Rue:<br>
+        Code postal:<br>
+        Latitude:<br>
+        Longitude:
+    </div>
     {{ form_end(form) }}
 
     <a href="{{ path('sortie_index') }}">back to list</a>
