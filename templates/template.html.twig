@@ -6,12 +6,14 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block titre %} {% endblock %}</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
     <!--<link rel="stylesheet" href="{{ asset("css/style.css") }}">-->
 </head>
 <body>
 {% set route_name = app.request.attributes.get('_route') %}
 
+{% block navbar %}
 
 <div class="top-bar">
 
@@ -25,27 +27,38 @@
 
     <div class="top-bar-right ">
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="vertical medium-horizontal menu">
 
-            <a class="nav-link">Villes
-            </a>
+            {%  if is_granted('ROLE_ADMIN') %}
 
-            <a class="nav-link">Sites
-            </a>
+            <li><a class="nav-link" href="{{path('ville')}}">Villes</a></li>
+            <li><a class="nav-link" href="{{path('site_index')}}">Sites</a></li>
+            <li><a class="nav-link" href="{{path('app_register')}}">S'enregistrer</a></li>
 
-            <a class="nav-link">S'enregistrer</a>
+            {% endif %}
 
-            <a class="nav-link">Se deconnecter</a>
-
-        </div>
+            <li><a class="nav-link" href="{{path('sortie_index' )}}">Accueil</a></li>
 
 
+            {%  if is_granted('ROLE_USER') %}
+
+                <li><a class="nav-link" href="{{path('user_show',{'id': app.user.id })}}">Mon profil</a></li>
+                <li><a class="nav-link" href="{{path('app_logout' )}}">Se déconnecter</a></li>
+
+
+            {% else %}
+
+                <li><a class="nav-link" href="{{path('app_login')}}">Se connecter</a></li>
+
+
+
+            {% endif %}
+        </ul>
     </div>
 
 </div>
+
+{% endblock %}
 
 <section class="container">
     {% block body %} {% endblock %}
