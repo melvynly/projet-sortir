@@ -1,11 +1,17 @@
 {% extends 'template.html.twig' %}
 
-{% block title %}Edit user{% endblock %}
+{% block titre %}Mon profil{% endblock %}
 
 {% block body %}
-    <h1>Edit user</h1>
+    <h1>Mon profil</h1>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="medium-6 cell">
+                {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+            </div>
+        </div>
+    </div>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Enregistrer'}) }}
     <button type="reset">Annuler</button>
 
     <a href="{{ path('user_index') }}">Retour</a>
