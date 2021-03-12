@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/site")
+ *
  */
 
 class SiteController extends AbstractController
@@ -21,12 +22,9 @@ class SiteController extends AbstractController
      */
     public function index(SiteRepository $siteRepository): Response
     {
-        if($this->denyAccessUnlessGranted('ROLE_USER')){
-            return $this->render('site/index.html.twig');
-        }
-        else{
-            return $this->render('sortie/index.html.twig');
-        }
+
+        $sites = $siteRepository->findAll();
+        return $this->render('site/index.html.twig',compact('sites'));
     }
 
     /**

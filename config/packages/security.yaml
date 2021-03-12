@@ -1,4 +1,6 @@
 security:
+    access_denied_url: /login #To redirect when an access of admin pages is denied
+
     encoders:
         App\Entity\User:
             algorithm: auto
@@ -9,8 +11,9 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: pseudo
+                #property: pseudo
     firewalls:
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -25,6 +28,16 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                name: remember_me
+                domain:   ~ # Defaults to the current domain from $_SERVER
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
