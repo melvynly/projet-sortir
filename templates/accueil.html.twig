@@ -1,0 +1,104 @@
+{#{% extends 'template.html.twig' %}#}
+{#{% block title %}Accueil{% endblock %}#}
+
+{#{% block body %}#}
+
+    <div>
+        Date du jour : {{"now"|date('d/m/Y')}} <br>
+        Participant : {{ app.user.pseudo }}
+    </div>
+
+    <h3>Filtrer les sorties</h3>
+
+    <form action="{{ path('accueil')}}" method="post">
+        <label for="site">Site : </label>
+        <select type="text" name="site" id="site">
+            {% for s in sites %}
+        <option >{{ s.nom }} </option>
+
+        </select>
+        {% endfor %}
+            <br>
+
+        <label for="nom">Le nom de la sortie contient : </label>
+        <input type="search" name="nom" id="nom"> <br>
+
+        <label for="dateDebut">Entre </label>
+        <input type="date" name="dateDebut" id="dateDebut">
+
+        <label for="dateFin"> et </label>
+        <input type="date" name="dateFin" id="dateFin"> <br>
+
+        <input type="checkbox" name="orga" id="orga">
+        <label for="orga"> Sorties dont je suis l'organisateur/trice </label><br>
+
+        <input type="checkbox" name="inscrit" id="inscrit">
+        <label for="inscrit"> Sorties auxquelles je suis inscrit/e </label><br>
+
+        <input type="checkbox" name="pasInscrit" id="pasInscrit">
+        <label for="pasInscrit"> Sorties auxquelles je ne suis pas inscrit/e </label><br>
+
+        <input type="checkbox" name="passe" id="passe">
+        <label for="passe"> Sorties passées </label><br>
+
+        <button type="submit">Rechercher</button>
+{#        <a href="{{ path('select', {'id': s.id }) }}">Rechercher </a>#}
+{#        {% endfor %}#}
+
+    </form>
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Nom de la sortie</th>
+        <th>Date de la sortie</th>
+        <th>Clôture</th>
+        <th>inscrits/places</th>
+        <th>Etat</th>
+        <th>Inscrit</th>
+        <th>Organisateur</th>
+        <th>Actions</th>
+    </tr>
+    <tr>
+        {% for s in sorties %}
+        <td>{{ s.nom }}</td>
+{#        <td>{{ s.dateHeureDebut | format_datetime('full', 'short', locale='fr')}}</td>#}
+        <td>{{ s.dateHeureDebut |date('d-m-Y H:i')}}</td>
+        <td>{{ s.dateLimiteInscription | date('d/m/Y')}}</td>
+        <td> à faire /{{ s.nbrePlacesMax }}</td>
+        <td>{{ s.etat.libelle }}</td>
+        <td> a faire </td>
+        <td>{{ s.organisateur.pseudo }}</td>
+        <td>
+            <a href="{{ path('sortie_show', {'id': s.id }) }}">Afficher</a>
+
+            {% if  s.dateHeureDebut > date() %}
+            <a href="#">Se désister ( a faire) </a>
+            {% endif %}
+
+            {% if s.organisateur.pseudo == app.user.pseudo %}
+            <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
+            <a href="{{ path('sortie_delete', {'id': s.id }) }}">Annuler</a>
+                {% if s.etat.libelle == 'Créée'%}
+                <a href="#">Publier ( à faire) </a>
+                {% endif %}
+            {% endif %}
+
+            {% if  s.etat.libelle == 'Ouverte' %}
+                 {% if  s.dateLimiteInscription > date() %}
+                    <a href="#">S'inscrire ( a faire) </a>
+                    {% endif %}
+            {% endif %}
+
+        </td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<a href="{{ path('sortie_new', {'id': app.user.id }) }}">CREER UNE SORTIE </a>
+
+{#{% endblock %}#}
