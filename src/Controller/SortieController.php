@@ -50,12 +50,12 @@ class SortieController extends AbstractController
             }
             if ($form->get('publier')->isClicked()){
 
-                // je mets d'office l'état de la sortie à Créée.
+                // je mets d'office l'état de la sortie à Ouverte.
                 $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
                 $sortie->setEtat($etat);
             }
             if ($form->get('annuler')->isClicked()){
-                //TODO rediriger vers la page d'accueil
+                //TODO rediriger vers la page d'annulation
 //                return $this->redirectToRoute('');
             }
 
@@ -94,13 +94,31 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Sortie $sortie): Response
+    public function edit(Request $request, EtatRepository $repoEtat, Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            if ($form->get('enregistrer')->isClicked()){
+
+                $this->getDoctrine()->getManager()->flush();
+            }
+            if ($form->get('publier')->isClicked()){
+
+                // je mets d'office l'état de la sortie à Ouverte.
+                $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
+                $sortie->setEtat($etat);
+
+                $this->getDoctrine()->getManager()->flush();
+
+            }
+            if ($form->get('annuler')->isClicked()){
+                //TODO rediriger vers la page d'annulation
+//                return $this->redirectToRoute('');
+            }
+
 
             return $this->redirectToRoute('sortie_index');
         }
