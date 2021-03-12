@@ -53,6 +53,7 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
             'pseudo' => $request->request->get('pseudo'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
+            'remember_me' => $request->request->get('_remember_me')
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -84,8 +85,6 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
             $user = $this->entityManager->getRepository(User::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
         }
 
-
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Pseudo could not be found.');
@@ -104,11 +103,14 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
      */
     public function getPassword($credentials): ?string
     {
+
+
         return $credentials['password'];
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey):Response
     {
+
 
         $response = new RedirectResponse($this->urlGenerator->generate('sortie_index'));
 
@@ -129,8 +131,5 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-    public function supportsRememberMe()
-    {
-        return true;
-    }
+
 }

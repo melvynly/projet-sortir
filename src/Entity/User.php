@@ -86,6 +86,9 @@ class User implements UserInterface
      */
     private $sortiesOrga;
 
+
+
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
