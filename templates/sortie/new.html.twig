@@ -15,6 +15,10 @@
     <div>Ville organisatrice: {{ app.user.site.nom}} </div>
     {{ form_row(form.villes) }}
     {{ form_row(form.lieu) }}
+    {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}
+    {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
+
+
 
     <div>
         Rue:<br>
@@ -24,5 +28,4 @@
     </div>
     {{ form_end(form) }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
 {% endblock %}

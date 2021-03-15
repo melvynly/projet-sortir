@@ -78,7 +78,7 @@
 
             {% if s.organisateur.pseudo == app.user.pseudo %}
             <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
-            <a href="{{ path('sortie_delete', {'id': s.id }) }}">Annuler</a>
+            <a href="{{ path('sortie_annuler', {'id': s.id }) }}">Annuler</a>
                 {% if s.etat.libelle == 'Créée'%}
                 <a href="#">Publier ( à faire) </a>
                 {% endif %}

@@ -72,7 +72,7 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            return $this->redirectToRoute('sortie_index');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('sortie/new.html.twig', [
@@ -92,9 +92,9 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="sortie_edit")
      */
-    public function edit(Request $request, EtatRepository $repoEtat, Sortie $sortie): Response
+    public function edit(EntityManagerInterface $em, Request $request, EtatRepository $repoEtat, Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -114,13 +114,14 @@ class SortieController extends AbstractController
                 $this->getDoctrine()->getManager()->flush();
 
             }
-            if ($form->get('annuler')->isClicked()){
-                //TODO rediriger vers la page d'annulation
-//                return $this->redirectToRoute('');
+            if ($form->get('supprimer')->isClicked()){
+            $em->remove($sortie);
+            $em->flush();
+
             }
 
 
-            return $this->redirectToRoute('sortie_index');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('sortie/edit.html.twig', [
@@ -130,7 +131,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_delete", methods={"DELETE"})
+     * @Route("/{id}", name="sortie_delete")
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
@@ -142,4 +143,40 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('sortie_index');
     }
+
+
+    /**
+     * @Route("/annuler/{id}", name="sortie_annuler")
+     */
+    public function annuler(Sortie $sortie, Request $request, EntityManagerInterface $em, UserRepository $repoUser, EtatRepository $repoEtat): Response
+    {
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('enregistrer')->isClicked()){
+
+                $etat= $repoEtat->findOneBy(["libelle" =>'Annulée']);
+                $sortie->setEtat($etat);
+
+                $this->getDoctrine()->getManager()->flush();
+            }
+
+            if ($form->get('annuler')->isClicked()){
+                return $this->redirectToRoute('accueil');
+            }
+
+
+            return $this->redirectToRoute('accueil');
+        }
+
+
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
 }
