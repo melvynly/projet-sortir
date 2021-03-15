@@ -26,12 +26,13 @@ class SortieType extends AbstractType
             ->add('nbrePlacesMax')
             ->add('duree')
             ->add('description', null, ['label'=>'Description et infos'])
-            //->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
-
+            ->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
+            ->add('modifAnnul',null,['label'=>'Motif: '])
             ->add('lieu',null,['choice_label'=>'nom'])
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
             ->add('annuler', SubmitType::class, ['label' => 'Annuler'])
+            ->add('supprimer', SubmitType::class, ['label' => 'Supprimer la sortie'])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $ville = $event->getData();
                 $form = $event->getForm();

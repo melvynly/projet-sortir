@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/accueil", name="accueil")
+     * @Route("/", name="accueil")
      */
     public function index(EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie): Response
     {
@@ -25,30 +25,42 @@ class AccueilController extends AbstractController
 
         foreach ($sorties as $s){
 
-//            $a= $s->getDateHeureDebut()+ $s->getDuree();
-//            dump($a);
-//            die();
+            $dateDebut= $s->getDateHeureDebut();
+            $duree= $s->getDuree();
+            $dateFin=date_add($dateDebut, date_interval_create_from_date_string("$duree day"));
 
-            if ($today> $s->getDateLimiteInscription()){
-                $etat= $repoEtat->findOneBy(["libelle" =>'Cloturée']);
-                $s->setEtat($etat);
+            // si elle est annulée, pas de changement d'état
+            if ($s->getEtat()->getLibelle()=='Annulée'){
+
+            }else{
+
+                // si la date d'inscription est depassée alors elle passe en cloturee
+                if ($today> $s->getDateLimiteInscription()){
+                    $etat= $repoEtat->findOneBy(["libelle" =>'Cloturée']);
+                    $s->setEtat($etat);
+                }
+                // si la date de début est arrivée alors elle passe en cours
+                if ($today>= $s->getDateHeureDebut()){
+                    $etat= $repoEtat->findOneBy(["libelle" =>'En cours']);
+                    $s->setEtat($etat);
+                }
+                // si la date de debut + duree est dépaséee alors elle passe en passée
+                if ($today> $dateFin){
+                     $etat= $repoEtat->findOneBy(["libelle" =>'Passée']);
+                     $s->setEtat($etat);
+                }
+
+                $em->persist($etat);
+                $em->flush();
+
+
+
             }
 
-            if ($today> $s->getDateHeureDebut()){
-                $etat= $repoEtat->findOneBy(["libelle" =>'En cours']);
-                $s->setEtat($etat);
-            }
-//
-//            if ($today> ($s->getDateHeureDebut()+ $s->getDuree())){
-//                $s->setEtat('Passée');
-//            }
-            $em->persist($etat);
-            $em->flush();
 
 
 
         }
-
 
 
 

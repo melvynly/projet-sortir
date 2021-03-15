@@ -21,20 +21,40 @@
         </tr>
         <tr>
             <th>Lieu : </th>
-            <td>{{ sortie.lieu.nom}}</td>
+            <td>
+                {{ sortie.lieu.nom}}
+                {{ sortie.lieu.rue}}
+                {{ sortie.lieu.ville.codePostal}}
+                {{ sortie.lieu.ville.nom}}
+            </td>
         </tr>
         <tr>
             <th>Motif : </th>
-            <td></td>
+            <td>
+                {{ form_start(form) }}
+                {{ form_widget(form.nom, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.dateHeureDebut, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.dateLimiteInscription, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.nbrePlacesMax, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.duree, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.description, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.lieu, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.publier, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.villes, { 'attr' : { 'style':'display:none'}}) }}
+                {{ form_widget(form.modifAnnul) }}
+
+            </td>
         </tr>
 
         </tbody>
     </table>
 
+    {{ form_widget(form.enregistrer) }}
+    {{ form_widget(form.annuler) }}
+    {{ form_end(form) }}
+    <br>
 
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
 
-
-    {{ include('sortie/_delete_form.html.twig') }}
 {% endblock %}
