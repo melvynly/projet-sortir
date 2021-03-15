@@ -24,6 +24,8 @@
     <input type="checkbox" id="remember_me" name="_remember_me" checked/>
 
 
+
+
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}">
 
@@ -31,5 +33,6 @@
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
+    <br><a href="{{ path('regen_password') }}"> Mot de passe oublié ?</a>
 </form>
 {% endblock %}
