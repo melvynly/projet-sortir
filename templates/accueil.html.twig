@@ -70,25 +70,37 @@
         <td> a faire </td>
         <td>{{ s.organisateur.pseudo }}</td>
         <td>
+{#            possibilite d'afficher les sorties peut importe leur etat#}
             <a href="{{ path('sortie_show', {'id': s.id }) }}">Afficher</a>
 
-            {% if  s.dateHeureDebut > date() %}
-            <a href="#">Se désister ( a faire) </a>
-            {% endif %}
-
+{#           si l'organisateur est le user#}
             {% if s.organisateur.pseudo == app.user.pseudo %}
-            <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
-            <a href="{{ path('sortie_annuler', {'id': s.id }) }}">Annuler</a>
+{#                et si l'etat est créée, lien vers modifier et publier#}
                 {% if s.etat.libelle == 'Créée'%}
-                <a href="#">Publier ( à faire) </a>
+                    <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
+                    <a href="#">Publier ( à faire) </a>
                 {% endif %}
+{#                si l'état est ouverte line vers annuler#}
+                {% if s.etat.libelle == 'Ouverte'%}
+                    <a href="{{ path('sortie_annuler', {'id': s.id }) }}">Annuler</a>
+                {% endif %}
+
             {% endif %}
 
+{#            TODO si le user n'est pas anonyme#}
+{#            si la sortie est ouverte et la date ok alors on peut s'y inscrire#}
             {% if  s.etat.libelle == 'Ouverte' %}
                  {% if  s.dateLimiteInscription > date() %}
                     <a href="#">S'inscrire ( a faire) </a>
                     {% endif %}
             {% endif %}
+
+{#            TODO si le user est inscrit#}
+{#            si la sortie n'est pas commencée, alors on peut se desister#}
+            {% if  s.dateHeureDebut > date() %}
+                <a href="#">Se désister ( a faire) </a>
+            {% endif %}
+
 
         </td>
 

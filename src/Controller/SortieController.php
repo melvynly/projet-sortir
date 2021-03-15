@@ -178,5 +178,14 @@ class SortieController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}", name="sortie_publier", methods={"GET"})
+     */
+    public function publier(Sortie $sortie): Response
+    {
+        return $this->render('sortie/show.html.twig', [
+            'sortie' => $sortie,
+        ]);
+    }
 
 }
