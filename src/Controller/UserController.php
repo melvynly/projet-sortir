@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegenPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -91,5 +92,26 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * @Route("/{id}/regen_password", name="regen_password")
+     */
+    public function regen_password(Request $request, User $user)
+    {
+
+        $formRegenPassword = $this->createForm(RegenPasswordType::class, $user);
+        $formRegenPassword->handleRequest($request);
+
+        if ($formRegenPassword->isSubmitted() && $formRegenPassword->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user/regenpassword.html.twig', [
+            'user' => $user,
+            'formRegenPassword' => $formRegenPassword->createView(),
+        ]);
     }
 }

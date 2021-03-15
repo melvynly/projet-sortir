@@ -15,7 +15,7 @@
 
 {% block navbar %}
 
-<div class="top-bar">
+<div class="top-bar ">
 
     <div class="top-bar-left ">
 
@@ -25,7 +25,7 @@
 
     </div>
 
-    <div class="top-bar-right ">
+    <div class="top-bar-right show-for-medium">
 
         <ul class="vertical medium-horizontal menu">
 
@@ -61,7 +61,14 @@
 {% endblock %}
 
 <section class="container">
-    {% block body %} {% endblock %}
+    <div class="callout">
+
+        <div class="float-center">
+            {% block body %} {% endblock %}
+        </div>
+
+    </div>
+
 </section>
 
 
