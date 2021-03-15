@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use   App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -40,10 +40,24 @@ class UserType extends AbstractType
             // Ajout de photo
             ->add('photo', FileType::class,[
                 'label' => 'Ma photo : ',
-                'multiple' => false,
-                'mapped' => false,
+                'mapped' => true,
                 'required' => false
             ])
+
+//            ->add('brochure', FileType::class, [
+//                // unmapped fields can't define their validation using annotations
+//                // in the associated entity, so you can use the PHP constraint classes
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => '1024k',
+//                        'mimeTypes' => [
+//                            'application/pdf',
+//                            'application/x-pdf',
+//                        ],
+//                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+//                    ])
+//                ],
+//            ])
 
         ;
     }
