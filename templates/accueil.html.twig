@@ -65,7 +65,7 @@
 {#        <td>{{ s.dateHeureDebut | format_datetime('full', 'short', locale='fr')}}</td>#}
         <td>{{ s.dateHeureDebut |date('d-m-Y H:i')}}</td>
         <td>{{ s.dateLimiteInscription | date('d/m/Y')}}</td>
-        <td> à faire /{{ s.nbrePlacesMax }}</td>
+        <td> {{ s.nbrePlacesRestantes }}/{{ s.nbrePlacesMax }}</td>
         <td>{{ s.etat.libelle }}</td>
         <td> a faire </td>
         <td>{{ s.organisateur.pseudo }}</td>
@@ -78,7 +78,7 @@
 {#                et si l'etat est créée, lien vers modifier et publier#}
                 {% if s.etat.libelle == 'Créée'%}
                     <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
-                    <a href="#">Publier ( à faire) </a>
+                    <a href="{{ path('sortie_publier', {'id': s.id }) }}">Publier </a>
                 {% endif %}
 {#                si l'état est ouverte line vers annuler#}
                 {% if s.etat.libelle == 'Ouverte'%}
@@ -88,17 +88,22 @@
             {% endif %}
 
 {#            TODO si le user n'est pas anonyme#}
-{#            si la sortie est ouverte et la date ok alors on peut s'y inscrire#}
+{#            si la sortie est ouverte et la date ok et qu'il reste des places alors on peut s'y inscrire#}
             {% if  s.etat.libelle == 'Ouverte' %}
                  {% if  s.dateLimiteInscription > date() %}
-                    <a href="#">S'inscrire ( a faire) </a>
+                     {% if s.nbrePlacesRestantes >0 %}
+                    <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
                     {% endif %}
+                 {% endif %}
             {% endif %}
 
-{#            TODO si le user est inscrit#}
-{#            si la sortie n'est pas commencée, alors on peut se desister#}
+{#            si la sortie n'est pas commencée et que le user est inscrit , alors on peut se desister#}
             {% if  s.dateHeureDebut > date() %}
-                <a href="#">Se désister ( a faire) </a>
+                {% for u in users %}
+                    {% if u.id == app.user.id %}
+                         <a href="{{ path('sortie_desister', {'idUser': app.user.id , 'idSortie': s.id })}}">Se désister </a>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
 
 

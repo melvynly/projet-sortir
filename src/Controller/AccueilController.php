@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Cassandra\Date;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +18,11 @@ class AccueilController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function index(EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie): Response
+    public function index(EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie, UserRepository $repoUser): Response
     {
         $sites= $repoSite->findAll();
         $sorties = $repoSortie->findAll();
+        $users = $repoUser->findAll();
         $today=new \DateTime("now");
 
         foreach ($sorties as $s){
@@ -66,7 +68,8 @@ class AccueilController extends AbstractController
 
         return $this->render('accueil.html.twig', [
             'sites'=>$sites,
-            'sorties'=>$sorties
+            'sorties'=>$sorties,
+            'users'=>$users
         ]);
     }
 
