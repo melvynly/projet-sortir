@@ -23,7 +23,7 @@
     </div>
     {{ form_row(form.enregistrer) }}
     {{ form_row(form.publier) }}
-    {{ form_row(form.supprimer) }}
+    {{ form_row(form.supprimer, {'attr': {'onclick': 'return confirm("Etes vous sûr de vouloir supprimer cette sortie ?")'}}) }}
     {{ form_row(form.annuler) }}
 
 

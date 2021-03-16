@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
@@ -58,8 +59,7 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat);
             }
             if ($form->get('annuler')->isClicked()){
-                //TODO rediriger vers la page d'annulation
-//                return $this->redirectToRoute('');
+                return $this->redirectToRoute('accueil');
             }
 
 
@@ -70,6 +70,9 @@ class SortieController extends AbstractController
             //je mets d'office le site de l'organisateur
             $site= $organisateur->getSite();
             $sortie->setSite($site);
+
+            //je mets d'office le nbrePlacesRestante = nbrePLacesMax
+            $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
 
 
             $em->persist($sortie);
@@ -111,10 +114,8 @@ class SortieController extends AbstractController
             }
             if ($form->get('publier')->isClicked()){
 
-                // je mets d'office l'état de la sortie à Ouverte.
                 $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
                 $sortie->setEtat($etat);
-
                 $this->getDoctrine()->getManager()->flush();
 
             }
@@ -134,19 +135,6 @@ class SortieController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="sortie_delete")
-     */
-    public function delete(Request $request, Sortie $sortie): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($sortie);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('sortie_index');
-    }
 
 
     /**
@@ -183,13 +171,58 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_publier", methods={"GET"})
+     * @Route("/publier/{id}", name="sortie_publier", methods={"GET"})
      */
-    public function publier(Sortie $sortie): Response
+    public function publier(Sortie $sortie, EtatRepository $repoEtat): Response
     {
-        return $this->render('sortie/show.html.twig', [
-            'sortie' => $sortie,
-        ]);
+        // je mets d'office l'état de la sortie à Ouverte.
+        $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
+        $sortie->setEtat($etat);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('accueil');
+    }
+
+    /**
+     * @Route("/inscrire/{idUser}/{idSortie}", name="sortie_inscrire")
+     */
+    public function inscrire ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite): Response
+    {
+
+        $user= $repoUser->find($idUser);
+        $sortie= $repoSortie->find($idSortie);
+        $today= new \Datetime();
+        if ($sortie->getDateLimiteInscription() > $today) {
+            $sortie->addUser($user);
+            //enlever une place restante à chaque inscription
+
+            if ($sortie->getNbrePlacesRestantes() > 0) {
+                $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
+            }
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->redirectToRoute('accueil');
+    }
+
+    /**
+     * @Route("/desister/{idUser}/{idSortie}", name="sortie_desister")
+     */
+    public function desister ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite): Response
+    {
+
+        $user= $repoUser->find($idUser);
+        $sortie= $repoSortie->find($idSortie);
+        $sortie->removeUser($user);
+        //ajouter une place restante à chaque desistement
+
+        if ($sortie -> getNbrePlacesRestantes() < $sortie->getNbrePlacesMax()) {
+            $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes()+ 1);
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('accueil');
     }
 
 }

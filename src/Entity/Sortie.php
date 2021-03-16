@@ -90,6 +90,11 @@ class Sortie
      */
     private $organisateur;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbrePlacesRestantes;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -266,6 +271,18 @@ class Sortie
     public function setOrganisateur(?User $organisateur): self
     {
         $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getNbrePlacesRestantes(): ?int
+    {
+        return $this->nbrePlacesRestantes;
+    }
+
+    public function setNbrePlacesRestantes(int $nbrePlacesRestantes): self
+    {
+        $this->nbrePlacesRestantes = $nbrePlacesRestantes;
 
         return $this;
     }
