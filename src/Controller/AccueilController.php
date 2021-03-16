@@ -55,16 +55,9 @@ class AccueilController extends AbstractController
                 $em->persist($etat);
                 $em->flush();
 
-
-
             }
 
-
-
-
         }
-
-
 
         return $this->render('accueil.html.twig', [
             'sites'=>$sites,
