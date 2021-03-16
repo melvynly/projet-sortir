@@ -193,14 +193,24 @@ class SortieController extends AbstractController
         $user= $repoUser->find($idUser);
         $sortie= $repoSortie->find($idSortie);
         $today= new \Datetime();
-        if ($sortie->getDateLimiteInscription() > $today) {
-            $sortie->addUser($user);
-            //enlever une place restante à chaque inscription
+        $inscrits=$sortie->getUsers();
 
-            if ($sortie->getNbrePlacesRestantes() > 0) {
-                $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
-            }
-            $this->getDoctrine()->getManager()->flush();
+        //verifier que la date limite d'inscription est ok
+        if ($sortie->getDateLimiteInscription() > $today) {
+            //verifier si pas dejà inscrit
+//            foreach ($inscrits as $inscrit) {
+//                if (! $inscrit->getId() === $user->getId()){
+                       $sortie->addUser($user);
+                    //enlever une place restante à chaque inscription
+
+                    if ($sortie->getNbrePlacesRestantes() > 0) {
+                        $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
+                    }
+                    $this->getDoctrine()->getManager()->flush();
+//                }
+//
+//            }
+
         }
 
         return $this->redirectToRoute('accueil');
@@ -214,9 +224,9 @@ class SortieController extends AbstractController
 
         $user= $repoUser->find($idUser);
         $sortie= $repoSortie->find($idSortie);
-        $users=$sortie->getUsers();
-        foreach ($users as $u){
-            if ($u->getId() === $user->getId()){
+        $inscrits=$sortie->getUsers();
+        foreach ($inscrits as $i){
+            if ($i->getId() == $user->getId()){
                 $sortie->removeUser($user);
 
                 //ajouter une place restante à chaque desistement

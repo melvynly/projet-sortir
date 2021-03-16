@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
@@ -65,17 +68,23 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+           $em =  $this->getDoctrine()->getManager();
             // On recupere le nom de la photo
             $file = $user->getPhoto();
             $fileName = md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter(user_directory), $fileName);
+            $file->move($this->getParameter('user_directory'), $fileName);
+            $user->setPhoto($fileName);
+
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+
+            $user->setPassword($hash);
+            $em->flush();
 
             return $this->redirectToRoute('user_index');
         }
