@@ -1,7 +1,7 @@
-{#{% extends 'template.html.twig' %}#}
-{#{% block title %}Accueil{% endblock %}#}
+{% extends 'template.html.twig' %}
+{% block title %}Accueil{% endblock %}
 
-{#{% block body %}#}
+{% block body %}
 
     <div>
         Date du jour : {{"now"|date('d/m/Y')}} <br>
@@ -116,6 +116,6 @@
 </table>
 
 
-<a href="{{ path('sortie_new', {'id': app.user.id }) }}">CREER UNE SORTIE </a>
+<a class="button" href="{{ path('sortie_new', {'id': app.user.id }) }}">CREER UNE SORTIE </a>
 
-{#{% endblock %}#}
+{% endblock %}
