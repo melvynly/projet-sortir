@@ -22,38 +22,41 @@ class AccueilController extends AbstractController
     {
         $sites= $repoSite->findAll();
         $sorties = $repoSortie->findAll();
-        $users = $repoUser->findAll();
         $today=new \DateTime("now");
 
         foreach ($sorties as $s){
-
+            $inscrits= $s->getUsers();
             $dateDebut= $s->getDateHeureDebut();
             $duree= $s->getDuree();
             $dateFin=date_add($dateDebut, date_interval_create_from_date_string("$duree day"));
 
-            // si elle est annulée, pas de changement d'état
-            if ($s->getEtat()->getLibelle()=='Annulée'){
-
-            }else{
+            // si elle est annulée, créée ou publiée, pas de changement d'état
+            if ($s->getEtat()->getLibelle()=='Annulée'){}
+            elseif ($s->getEtat()->getLibelle()=='Créée'){}
+            elseif ($s->getEtat()->getLibelle()=='Publiée'){}
+            else{
 
                 // si la date d'inscription est depassée alors elle passe en cloturee
                 if ($today> $s->getDateLimiteInscription()){
                     $etat= $repoEtat->findOneBy(["libelle" =>'Cloturée']);
                     $s->setEtat($etat);
+                    $em->persist($etat);
+                    $em->flush();
                 }
                 // si la date de début est arrivée alors elle passe en cours
                 if ($today>= $s->getDateHeureDebut()){
                     $etat= $repoEtat->findOneBy(["libelle" =>'En cours']);
                     $s->setEtat($etat);
+                    $em->persist($etat);
+                    $em->flush();
                 }
                 // si la date de debut + duree est dépaséee alors elle passe en passée
                 if ($today> $dateFin){
                      $etat= $repoEtat->findOneBy(["libelle" =>'Passée']);
                      $s->setEtat($etat);
+                    $em->persist($etat);
+                    $em->flush();
                 }
-
-                $em->persist($etat);
-                $em->flush();
 
             }
 
@@ -62,7 +65,7 @@ class AccueilController extends AbstractController
         return $this->render('accueil.html.twig', [
             'sites'=>$sites,
             'sorties'=>$sorties,
-            'users'=>$users
+            'inscrits'=>$inscrits
         ]);
     }
 

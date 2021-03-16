@@ -10,14 +10,14 @@
 
     <h3>Filtrer les sorties</h3>
 
-    <form action="{{ path('accueil')}}" method="post">
+    <form action="{{ path("filtre", {'id': app.user.id})}}" method="get">
         <label for="site">Site : </label>
         <select type="text" name="site" id="site">
             {% for s in sites %}
         <option >{{ s.nom }} </option>
-
+            {% endfor %}
         </select>
-        {% endfor %}
+
             <br>
 
         <label for="nom">Le nom de la sortie contient : </label>
@@ -88,22 +88,28 @@
             {% endif %}
 
 {#            TODO si le user n'est pas anonyme#}
-{#            si la sortie est ouverte et la date ok et qu'il reste des places alors on peut s'y inscrire#}
+{#            si la sortie est ouverte et la date ok et qu'il reste des places et que l'user n'est pas dejà inscrit alors on peut s'y inscrire#}
             {% if  s.etat.libelle == 'Ouverte' %}
                  {% if  s.dateLimiteInscription > date() %}
                      {% if s.nbrePlacesRestantes >0 %}
-                    <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
+{#                         {% for i in inscrits %}#}
+{#                            {% if i.id == app.user.id %}#}
+{#                                {% else %}#}
+                                <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
+{#                            {% endif %}#}
+{#                         {% endfor %}#}
+
                     {% endif %}
                  {% endif %}
             {% endif %}
 
 {#            si la sortie n'est pas commencée et que le user est inscrit , alors on peut se desister#}
             {% if  s.dateHeureDebut > date() %}
-                {% for u in users %}
-                    {% if u.id == app.user.id %}
+{#                {% for i in inscrits %}#}
+{#                    {% if i.id == app.user.id %}#}
                          <a href="{{ path('sortie_desister', {'idUser': app.user.id , 'idSortie': s.id })}}">Se désister </a>
-                    {% endif %}
-                {% endfor %}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
             {% endif %}
 
 
