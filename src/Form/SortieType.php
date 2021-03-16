@@ -21,7 +21,9 @@ class SortieType extends AbstractType
         $builder
             ->add('nom',null,['label'=>'Nom de la sortie'])
             ->add('dateHeureDebut',DateTimeType::class, [
-                'date_label' => 'Starts On',
+                // Il faut diviser la date et l'heure pour pouvoir les modifier
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
 
             ])
             ->add('dateLimiteInscription',DateType::class, [
@@ -35,10 +37,10 @@ class SortieType extends AbstractType
             ->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
             ->add('modifAnnul',null,['label'=>'Motif: '])
             ->add('lieu',null,['choice_label'=>'nom'])
-            ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('publier', SubmitType::class, ['label' => 'Publier la sortie'])
-            ->add('annuler', SubmitType::class, ['label' => 'Annuler'])
-            ->add('supprimer', SubmitType::class, ['label' => 'Supprimer la sortie'])
+            ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer', 'row_attr' => ['class' => 'success button']])
+            ->add('publier', SubmitType::class, ['label' => 'Publier la sortie', 'row_attr' => ['class' => 'button']])
+            ->add('annuler', SubmitType::class, ['label' => 'Annuler', 'row_attr' => ['class' => 'alert button']])
+            ->add('supprimer', SubmitType::class, ['label' => 'Supprimer la sortie', 'row_attr' => ['class' => 'alert button']])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $ville = $event->getData();
                 $form = $event->getForm();
@@ -50,32 +52,6 @@ class SortieType extends AbstractType
                     $form->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville']);
                 }
             });
-
-
-
-
-
-
-
-
-//            ->add('villes', null, array(
-//                'class'    => 'Bundle:Ville',
-//                'property' => 'nom',
-//                'empty_value' => '-- sélectionner un parc --',
-//                'label'    => 'Choisir le parc immobilier : ',
-//            ))
-//            ->add('lieu', null, array(
-//                'class'    => 'Bundle:Lieu',
-//                'query_builder' => function(EntityRepository $er) {
-//                    return $er->createQueryBuilder('l')
-//                        ->join('l.ville','v');
-//                },
-//                'property' => 'nom',
-//                'empty_value' => '-- sélectionner un ensemble --',
-//                'label'    => 'Choisir l\'ensemble : ',
-//            ))
-
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

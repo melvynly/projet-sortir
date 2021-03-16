@@ -41,7 +41,7 @@
         <input type="checkbox" name="passe" id="passe">
         <label for="passe"> Sorties passées </label><br>
 
-        <button type="submit">Rechercher</button>
+        <button class="button" type="submit">Rechercher</button>
 {#        <a href="{{ path('select', {'id': s.id }) }}">Rechercher </a>#}
 {#        {% endfor %}#}
 
@@ -68,7 +68,7 @@
         <td> {{ s.nbrePlacesRestantes }}/{{ s.nbrePlacesMax }}</td>
         <td>{{ s.etat.libelle }}</td>
         <td> a faire </td>
-        <td>{{ s.organisateur.pseudo }}</td>
+        <td><a href="{{ path('user_show', {'id': s.organisateur.id}) }}">{{ s.organisateur.pseudo }}</a></td>
         <td>
 {#            possibilite d'afficher les sorties peut importe leur etat#}
             <a href="{{ path('sortie_show', {'id': s.id }) }}">Afficher</a>
