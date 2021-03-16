@@ -22,11 +22,10 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('telephone')
             ->add('mail', null,  ['label'=>'Email'])
-           // ->add('actif')
 
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'required' => true,
+                'required' => false,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'constraints' => array(
                     new NotBlank(),
@@ -44,22 +43,6 @@ class UserType extends AbstractType
                 'mapped' => true,
                 'required' => false
             ])
-
-//            ->add('brochure', FileType::class, [
-//                // unmapped fields can't define their validation using annotations
-//                // in the associated entity, so you can use the PHP constraint classes
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '1024k',
-//                        'mimeTypes' => [
-//                            'application/pdf',
-//                            'application/x-pdf',
-//                        ],
-//                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-//                    ])
-//                ],
-//            ])
-
         ;
     }
 
