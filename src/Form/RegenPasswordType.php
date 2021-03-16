@@ -18,6 +18,8 @@ class RegenPasswordType extends AbstractType
     {
         $builder
 
+            ->add('pseudo')
+
 
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,

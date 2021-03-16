@@ -95,9 +95,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/regen_password", name="regen_password")
+     * @Route("/checkPseudoEmail", name="checkPseudoEmail", methods={"GET","POST"})
      */
-    public function regen_password(Request $request, User $user)
+    public function checkPseudoEmail(Request $request, User $user)
     {
 
         $formRegenPassword = $this->createForm(RegenPasswordType::class, $user);
@@ -106,12 +106,11 @@ class UserController extends AbstractController
         if ($formRegenPassword->isSubmitted() && $formRegenPassword->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            //return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/regenpassword.html.twig', [
-            'user' => $user,
-            'formRegenPassword' => $formRegenPassword->createView(),
-        ]);
+        /*return $this->render('user/regenpassword.html.twig', [
+            'formRegenPassword' => $formRegenPassword->createView()
+        ]);*/
     }
 }
