@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Sortie;
+
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -15,14 +18,17 @@ class SortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-
-
-
         $builder
             ->add('nom',null,['label'=>'Nom de la sortie'])
-            ->add('dateHeureDebut',null, ['label'=>'Date et heure de la sortie'])
-            ->add('dateLimiteInscription',null, ['label'=>'Date limite d\'inscription'])
+            ->add('dateHeureDebut',DateTimeType::class, [
+                'date_label' => 'Starts On',
+
+            ])
+            ->add('dateLimiteInscription',DateType::class, [
+                'widget' => 'single_text',
+                // this is actually the default format for single_text
+                'format' => 'yyyy-MM-dd'
+            ])
             ->add('nbrePlacesMax')
             ->add('duree')
             ->add('description', null, ['label'=>'Description et infos'])
