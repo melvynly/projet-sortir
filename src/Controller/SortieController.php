@@ -214,13 +214,21 @@ class SortieController extends AbstractController
 
         $user= $repoUser->find($idUser);
         $sortie= $repoSortie->find($idSortie);
-        $sortie->removeUser($user);
-        //ajouter une place restante à chaque desistement
+        $users=$sortie->getUsers();
+        foreach ($users as $u){
+            if ($u->getId() === $user->getId()){
+                $sortie->removeUser($user);
 
-        if ($sortie -> getNbrePlacesRestantes() < $sortie->getNbrePlacesMax()) {
-            $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes()+ 1);
+                //ajouter une place restante à chaque desistement
+
+                if ($sortie -> getNbrePlacesRestantes() < $sortie->getNbrePlacesMax()) {
+                    $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes()+ 1);
+                }
+                $this->getDoctrine()->getManager()->flush();
+            }
         }
-        $this->getDoctrine()->getManager()->flush();
+
+
 
         return $this->redirectToRoute('accueil');
     }
