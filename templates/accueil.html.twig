@@ -60,14 +60,22 @@
         <th>Actions</th>
     </tr>
     <tr>
+
         {% for s in sorties %}
+        {% if s.etat.libelle != 'Archivée' %}
         <td>{{ s.nom }}</td>
 {#        <td>{{ s.dateHeureDebut | format_datetime('full', 'short', locale='fr')}}</td>#}
         <td>{{ s.dateHeureDebut |date('d/m/Y H:i')}}</td>
         <td>{{ s.dateLimiteInscription | date('d/m/Y')}}</td>
         <td> {{ s.nbrePlacesRestantes }}/{{ s.nbrePlacesMax }}</td>
         <td>{{ s.etat.libelle }}</td>
-        <td> a faire </td>
+        <td>
+            {% for u in s.users %}
+                {% if u.id == app.user.id %}
+                    X
+                {% endif %}
+            {% endfor %}
+        </td>
         <td><a href="{{ path('user_show', {'id': s.organisateur.id}) }}">{{ s.organisateur.pseudo }}</a></td>
         <td>
 {#            possibilite d'afficher les sorties peut importe leur etat#}
@@ -87,29 +95,31 @@
 
             {% endif %}
 
-{#            TODO si le user n'est pas anonyme#}
+{#            si l'organisateur n'est pas le user#}
+            {% if s.organisateur.pseudo != app.user.pseudo %}
 {#            si la sortie est ouverte et la date ok et qu'il reste des places et que l'user n'est pas dejà inscrit alors on peut s'y inscrire#}
-            {% if  s.etat.libelle == 'Ouverte' %}
-                 {% if  s.dateLimiteInscription > date() %}
-                     {% if s.nbrePlacesRestantes >0 %}
-{#                         {% for i in inscrits %}#}
-{#                            {% if i.id == app.user.id %}#}
-{#                                {% else %}#}
-                                <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
-{#                            {% endif %}#}
-{#                         {% endfor %}#}
-
-                    {% endif %}
-                 {% endif %}
+                 {% if  s.etat.libelle == 'Ouverte' %}
+                        {% if  s.dateLimiteInscription > date() %}
+                            {% if s.nbrePlacesRestantes >0 %}
+{#                         TODO si l'user n'est pas déjà inscrit#}
+{#                                {% for u in s.users %}#}
+{#                                {% if u.id == app.user.id %}#}
+                                    <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
+{#                                {% endif %}#}
+{#                                {% endfor %}#}
+                            {% endif %}
+                         {% endif %}
+                {% endif %}
             {% endif %}
 
 {#            si la sortie n'est pas commencée et que le user est inscrit , alors on peut se desister#}
             {% if  s.dateHeureDebut > date() %}
-{#                {% for i in inscrits %}#}
-{#                    {% if i.id == app.user.id %}#}
-                         <a href="{{ path('sortie_desister', {'idUser': app.user.id , 'idSortie': s.id })}}">Se désister </a>
-{#                    {% endif %}#}
-{#                {% endfor %}#}
+                {% for u in s.users %}
+                    {% if u.id == app.user.id %}
+                        <a href="{{ path('sortie_desister', {'idUser': app.user.id , 'idSortie': s.id })}}">Se désister </a>
+                    {% endif %}
+                {% endfor %}
+
             {% endif %}
 
 
@@ -117,6 +127,7 @@
 
 
     </tr>
+    {% endif %}
     {% endfor %}
     </tbody>
 </table>

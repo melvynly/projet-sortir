@@ -25,16 +25,14 @@ class AccueilController extends AbstractController
         $today=new \DateTime("now");
 
         foreach ($sorties as $s){
-            $inscrits= $s->getUsers();
             $dateDebut= $s->getDateHeureDebut();
             $duree= $s->getDuree();
             $dateFin=date_add($dateDebut, date_interval_create_from_date_string("$duree day"));
+            $dateArchive=date_add($dateFin, date_interval_create_from_date_string("1 month"));
 
             // si elle est annulée, créée ou publiée, pas de changement d'état
-            if ($s->getEtat()->getLibelle()=='Annulée'){}
-            elseif ($s->getEtat()->getLibelle()=='Créée'){}
-            elseif ($s->getEtat()->getLibelle()=='Publiée'){}
-            else{
+            if (!$s->getEtat()->getLibelle()=='Annulée'){}
+            else {
 
                 // si la date d'inscription est depassée alors elle passe en cloturee
                 if ($today> $s->getDateLimiteInscription()){
@@ -57,6 +55,13 @@ class AccueilController extends AbstractController
                     $em->persist($etat);
                     $em->flush();
                 }
+                // si la date de debut + duree + 30 jours est dépaséee alors elle passe en archivée
+                if ($today>= $dateArchive){
+                    $etat= $repoEtat->findOneBy(["libelle" =>'Archivée']);
+                    $s->setEtat($etat);
+                    $em->persist($etat);
+                    $em->flush();
+                }
 
             }
 
@@ -65,21 +70,9 @@ class AccueilController extends AbstractController
         return $this->render('accueil.html.twig', [
             'sites'=>$sites,
             'sorties'=>$sorties,
-            'inscrits'=>$inscrits
+
         ]);
     }
-
-//    /**
-//     * @Route("/select/{id}", name="select")
-//     */
-//    public function select($id, SortieRepository $repo): Response
-//    {
-//        $sorties= $repo->findBy([],["site_id" => $id]);
-//
-//        return $this->render('accueil.html.twig', [
-//            'sorties'=>$sorties,
-//        ]);
-//    }
 
 
 }
