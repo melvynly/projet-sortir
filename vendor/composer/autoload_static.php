@@ -489,6 +489,8 @@ class ComposerStaticInit1d7e8f216acdb62990737920b6657ea9
 
     public static $classMap = array (
         'App\\Controller\\AccueilController' => __DIR__ . '/../..' . '/src/Controller/AccueilController.php',
+        'App\\Controller\\FiltreController' => __DIR__ . '/../..' . '/src/Controller/FiltreController.php',
+        'App\\Controller\\LieuController' => __DIR__ . '/../..' . '/src/Controller/LieuController.php',
         'App\\Controller\\RegistrationController' => __DIR__ . '/../..' . '/src/Controller/RegistrationController.php',
         'App\\Controller\\SecurityController' => __DIR__ . '/../..' . '/src/Controller/SecurityController.php',
         'App\\Controller\\SiteController' => __DIR__ . '/../..' . '/src/Controller/SiteController.php',
@@ -501,6 +503,7 @@ class ComposerStaticInit1d7e8f216acdb62990737920b6657ea9
         'App\\Entity\\Sortie' => __DIR__ . '/../..' . '/src/Entity/Sortie.php',
         'App\\Entity\\User' => __DIR__ . '/../..' . '/src/Entity/User.php',
         'App\\Entity\\Ville' => __DIR__ . '/../..' . '/src/Entity/Ville.php',
+        'App\\Form\\LieuType' => __DIR__ . '/../..' . '/src/Form/LieuType.php',
         'App\\Form\\RegenPasswordType' => __DIR__ . '/../..' . '/src/Form/RegenPasswordType.php',
         'App\\Form\\RegistrationFormType' => __DIR__ . '/../..' . '/src/Form/RegistrationFormType.php',
         'App\\Form\\SiteType' => __DIR__ . '/../..' . '/src/Form/SiteType.php',

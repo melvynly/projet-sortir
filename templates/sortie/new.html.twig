@@ -37,27 +37,33 @@
     <h1>Créer une Sortie</h1>
 
     {{ form_start(form) }}
-    {{ form_row(form.nom) }}
-    {{ form_row(form.dateHeureDebut) }}
-    {{ form_row(form.dateLimiteInscription) }}
-    {{ form_row(form.nbrePlacesMax) }}
-    {{ form_row(form.duree) }}
-    {{ form_row(form.description) }}
-    <div>Ville organisatrice: {{ app.user.site.nom}} </div>
-    {{ form_row(form.villes) }}
-    {{ form_row(form.lieu) }}
-    {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}
-    {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
-
-
-
-    <div>
-        Rue:<br>
-        Code postal:<br>
-        Latitude:<br>
-        Longitude:
-    </div>
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
+
+
+{#    {{ form_start(form) }}#}
+{#    {{ form_row(form.nom) }}#}
+{#    {{ form_row(form.dateHeureDebut) }}#}
+{#    {{ form_row(form.dateLimiteInscription) }}#}
+{#    {{ form_row(form.nbrePlacesMax) }}#}
+{#    {{ form_row(form.duree) }}#}
+{#    {{ form_row(form.description) }}#}
+{#    <div>Ville organisatrice: {{ app.user.site.nom}} </div>#}
+{#    {{ form_row(form.villes) }}#}
+{#    {{ form_row(form.lieu) }}#}
+{#    {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}#}
+{#    {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}#}
+
+
+
+{#    <div>#}
+{#        Rue:<br>#}
+{#        Code postal:<br>#}
+{#        Latitude:<br>#}
+{#        Longitude:#}
+{#    </div>#}
+{#    {{ form_end(form) }}#}
     <script>
 {#    function Choix(form) {#}
 {#    let i = form.Rubrique.selectedIndex;#}

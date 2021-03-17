@@ -62,24 +62,32 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('accueil');
             }
 
+            if(!$form->get('lieu')->isEmpty()){
 
-            //je mets d'office la personne identifié comme organisatrice
-            $organisateur= $repoUser->find($id);
-            $sortie->setOrganisateur($organisateur);
+                //je mets d'office la personne identifié comme organisatrice
+                $organisateur= $repoUser->find($id);
+                $sortie->setOrganisateur($organisateur);
 
-            //je mets d'office le site de l'organisateur
-            $site= $organisateur->getSite();
-            $sortie->setSite($site);
+                //je mets d'office le site de l'organisateur
+                $site= $organisateur->getSite();
+                $sortie->setSite($site);
 
-            //je mets d'office le nbrePlacesRestante = nbrePLacesMax
-            $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
+                //je mets d'office le nbrePlacesRestante = nbrePLacesMax
+                $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
 
 
-            $em->persist($sortie);
-            $em->flush();
+                $em->persist($sortie);
+                $em->flush();
 
-            return $this->redirectToRoute('accueil');
+                return $this->redirectToRoute('accueil');
+            }
+
+
+
+
+
         }
+
 
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
@@ -109,26 +117,32 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$form->get('lieu')->isEmpty()){
 
-            if ($form->get('enregistrer')->isClicked()){
+                if ($form->get('enregistrer')->isClicked()){
 
-                $this->getDoctrine()->getManager()->flush();
-            }
-            if ($form->get('publier')->isClicked()){
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                if ($form->get('publier')->isClicked()){
 
-                $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
-                $sortie->setEtat($etat);
-                $this->getDoctrine()->getManager()->flush();
 
-            }
-            if ($form->get('supprimer')->isClicked()){
+
+                    $etat = $repoEtat->findOneBy(["libelle" => 'Ouverte']);
+                    $sortie->setEtat($etat);
+                    $this->getDoctrine()->getManager()->flush();
+
+                }
+            return $this->redirectToRoute('accueil');
+        }
+        else if ($form->get('supprimer')->isClicked()){
             $em->remove($sortie);
             $em->flush();
+                return $this->redirectToRoute('accueil');
 
             }
 
 
-            return $this->redirectToRoute('accueil');
+
         }
 
         return $this->render('sortie/edit.html.twig', [
