@@ -112,7 +112,7 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
     {
 
 
-        $response = new RedirectResponse($this->urlGenerator->generate('sortie_index'));
+        $response = new RedirectResponse($this->urlGenerator->generate('accueil'));
 
         return $response;
 

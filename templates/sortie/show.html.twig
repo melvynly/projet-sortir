@@ -70,8 +70,10 @@
                 <th>Nom</th>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
+                {% for p in participants %}
+                <td>{{ p.pseudo }}</td>
+                <td>{{ p.nom }}</td>
+                {% endfor %}
             </tr>
 
             </tbody>

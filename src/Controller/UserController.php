@@ -75,11 +75,15 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
            $em =  $this->getDoctrine()->getManager();
-            // On recupere le nom de la photo
             $file = $user->getPhoto();
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('user_directory'), $fileName);
-            $user->setPhoto($fileName);
+               if($file){
+                   $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                   $file->move($this->getParameter('user_directory'), $fileName);
+                   $user->setPhoto($fileName);
+               }
+            // On recupere le nom de la photo
+
+
 
             $hash = $encoder->encodePassword($user, $user->getPassword());
 

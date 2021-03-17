@@ -93,8 +93,10 @@ class SortieController extends AbstractController
      */
     public function show(Sortie $sortie): Response
     {
+        $participants= $sortie ->getUsers();
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'participants'=>$participants
         ]);
     }
 
@@ -225,16 +227,21 @@ class SortieController extends AbstractController
         $user= $repoUser->find($idUser);
         $sortie= $repoSortie->find($idSortie);
         $inscrits=$sortie->getUsers();
-        foreach ($inscrits as $i){
-            if ($i->getId() == $user->getId()){
-                $sortie->removeUser($user);
+        $today= new \Datetime();
+        //si la sortie n'est pas commencée
+        if ($sortie->getDateHeureDebut()> $today) {
+            //si le user est bien inscrit
+            foreach ($inscrits as $i) {
+                if ($i->getId() == $user->getId()) {
+                    $sortie->removeUser($user);
 
-                //ajouter une place restante à chaque desistement
+                    //ajouter une place restante à chaque desistement
 
-                if ($sortie -> getNbrePlacesRestantes() < $sortie->getNbrePlacesMax()) {
-                    $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes()+ 1);
+                    if ($sortie->getNbrePlacesRestantes() < $sortie->getNbrePlacesMax()) {
+                        $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() + 1);
+                    }
+                    $this->getDoctrine()->getManager()->flush();
                 }
-                $this->getDoctrine()->getManager()->flush();
             }
         }
 
