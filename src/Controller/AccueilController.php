@@ -21,7 +21,7 @@ class AccueilController extends AbstractController
     public function index(EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie, UserRepository $repoUser): Response
     {
         $sites= $repoSite->findAll();
-        $sorties = $repoSortie->findAll();
+        $sorties = $repoSortie->findBy([],['dateHeureDebut' => 'desc']);
         $today=new \DateTime("now");
 
         foreach ($sorties as $s){
