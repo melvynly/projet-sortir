@@ -47,7 +47,25 @@ class VilleController extends AbstractController
         }
     }
 
-    // methode DELETE not allowed à l'ENI
+
+//    public function contact(Request $request)
+//    {
+//        $defaultData = ['message' => 'Type your message here'];
+//        $form = $this->createFormBuilder($defaultData)
+//            ->add('date_debut', TextType::class)
+//            ->add('date_fin', EmailType::class)
+//            ->add('send', SubmitType::class)
+//            ->getForm();
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            // data is an array with "date_debut", "date_fin" keys
+//            $data = $form->getData();
+//        }
+//        // ... render the form
+//    }
+
+
+    // method DELETE not allowed à l'ENI
     /**
      * @Route("/delete/{id}", name="ville_delete", methods={"GET"})
      */

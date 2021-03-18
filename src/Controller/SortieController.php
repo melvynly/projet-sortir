@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -28,16 +29,20 @@ class SortieController extends AbstractController
      */
     public function index(SortieRepository $sortieRepository): Response
     {
+
+
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
+
         ]);
     }
 
     /**
      * @Route("/new/{id}", name="sortie_new", methods={"GET","POST"})
      */
-    public function new($id,Request $request, EntityManagerInterface $em, UserRepository $repoUser, EtatRepository $repoEtat, VilleRepository $repoVille): Response
+    public function new($id,Request $request, EntityManagerInterface $em, LieuRepository $repoLieu, UserRepository $repoUser, EtatRepository $repoEtat, VilleRepository $repoVille): Response
     {
+        $lieux = $repoLieu->findAll();
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -62,29 +67,40 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('accueil');
             }
 
+            if(!$form->get('lieu')->isEmpty()){
 
-            //je mets d'office la personne identifié comme organisatrice
-            $organisateur= $repoUser->find($id);
-            $sortie->setOrganisateur($organisateur);
+                //je mets d'office la personne identifié comme organisatrice
+                $organisateur= $repoUser->find($id);
+                $sortie->setOrganisateur($organisateur);
 
-            //je mets d'office le site de l'organisateur
-            $site= $organisateur->getSite();
-            $sortie->setSite($site);
+                //je mets d'office le site de l'organisateur
+                $site= $organisateur->getSite();
+                $sortie->setSite($site);
 
-            //je mets d'office le nbrePlacesRestante = nbrePLacesMax
-            $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
+                //je mets d'office le nbrePlacesRestante = nbrePLacesMax
+                $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
+
+                dump($sortie->getDateHeureDebut());
 
 
-            $em->persist($sortie);
-            $em->flush();
+                $em->persist($sortie);
+                $em->flush();
 
-            return $this->redirectToRoute('accueil');
+                return $this->redirectToRoute('accueil');
+            }
+
+
+
+
+
         }
+
 
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
             'villes' => $villes,
+            'lieux'=>$lieux
         ]);
     }
 
@@ -109,26 +125,32 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if(!$form->get('lieu')->isEmpty()){
 
-            if ($form->get('enregistrer')->isClicked()){
+                if ($form->get('enregistrer')->isClicked()){
 
-                $this->getDoctrine()->getManager()->flush();
-            }
-            if ($form->get('publier')->isClicked()){
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                if ($form->get('publier')->isClicked()){
 
-                $etat= $repoEtat->findOneBy(["libelle" =>'Ouverte']);
-                $sortie->setEtat($etat);
-                $this->getDoctrine()->getManager()->flush();
 
-            }
-            if ($form->get('supprimer')->isClicked()){
+
+                    $etat = $repoEtat->findOneBy(["libelle" => 'Ouverte']);
+                    $sortie->setEtat($etat);
+                    $this->getDoctrine()->getManager()->flush();
+
+                }
+            return $this->redirectToRoute('accueil');
+        }
+        else if ($form->get('supprimer')->isClicked()){
             $em->remove($sortie);
             $em->flush();
+                return $this->redirectToRoute('accueil');
 
             }
 
 
-            return $this->redirectToRoute('accueil');
+
         }
 
         return $this->render('sortie/edit.html.twig', [
@@ -199,6 +221,14 @@ class SortieController extends AbstractController
 
         //verifier que la date limite d'inscription est ok
         if ($sortie->getDateLimiteInscription() > $today) {
+
+        $dql = "SELECT user_id FROM sortie_user " .
+        "WHERE sortie_id = ".$sortie->getId();
+        $resul = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
+        dump($resul);
+
+
+
             //verifier si pas dejà inscrit
 //            foreach ($inscrits as $inscrit) {
 //                if (! $inscrit->getId() === $user->getId()){
