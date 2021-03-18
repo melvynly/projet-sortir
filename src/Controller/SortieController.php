@@ -199,6 +199,14 @@ class SortieController extends AbstractController
 
         //verifier que la date limite d'inscription est ok
         if ($sortie->getDateLimiteInscription() > $today) {
+
+        $dql = "SELECT user_id FROM sortie_user " .
+        "WHERE sortie_id = ".$sortie->getId();
+        $resul = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
+        dump($resul);
+
+
+
             //verifier si pas dejà inscrit
 //            foreach ($inscrits as $inscrit) {
 //                if (! $inscrit->getId() === $user->getId()){

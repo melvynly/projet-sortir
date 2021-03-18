@@ -65,7 +65,7 @@
         {% if s.etat.libelle != 'Archivée' %}
         <td>{{ s.nom }}</td>
 {#        <td>{{ s.dateHeureDebut | format_datetime('full', 'short', locale='fr')}}</td>#}
-        <td>{{ s.dateHeureDebut |date('d/m/Y H:i')}}</td>
+        <td>{{ s.dateHeureDebut | date('d/m/Y H:i')}}</td>
         <td>{{ s.dateLimiteInscription | date('d/m/Y')}}</td>
         <td> {{ s.nbrePlacesRestantes }}/{{ s.nbrePlacesMax }}</td>
         <td>{{ s.etat.libelle }}</td>

@@ -90,7 +90,7 @@ class UserController extends AbstractController
             $user->setPassword($hash);
             $em->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('user/edit.html.twig', [

@@ -28,7 +28,6 @@ class UserType extends AbstractType
                 'required' => false,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'constraints' => array(
-                    new NotBlank(),
                     new Length(array('min' => 6)),
                 ),
                 'first_options'  => array('label' => 'Mot de passe '),
