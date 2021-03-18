@@ -115,7 +115,7 @@ final class Versions
   'symfony/twig-bridge' => 'v5.2.4@4fa4380e5413eb5db24abdef4dfd9fe567b11605',
   'symfony/twig-bundle' => 'v5.2.4@5ebbb5f0e8bfaa0b4b37cb25ff97f83b18caf221',
   'symfony/validator' => 'v5.2.4@db23f365a5646da5f7650c0da4a7a571c1ff37b1',
-  'symfony/var-dumper' => 'v5.2.5@002ab5a36702adf0c9a11e6d8836623253e9045e',
+  'symfony/var-dumper' => 'v5.2.4@6a81fec0628c468cf6d5c87a4d003725e040e223',
   'symfony/var-exporter' => 'v5.2.4@5aed4875ab514c8cb9b6ff4772baa25fa4c10307',
   'symfony/web-profiler-bundle' => 'v5.2.4@4b28c24db64156ad892300be7fae1978bed075ce',
   'symfony/yaml' => 'v5.2.4@7d6ae0cce3c33965af681a4355f1c4de326ed277',

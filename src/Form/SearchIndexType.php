@@ -27,13 +27,15 @@ class SearchIndexType extends AbstractType
             ->add('dateMin', DateType::class,[
                 'label' =>"Entre",
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable'
+                'input'  => 'datetime_immutable',
+                'required' =>false
                 ])
 
             ->add('dateMax', DateType::class,[
                 'label' =>"Entre",
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable'
+                'input'  => 'datetime_immutable',
+                'required' =>false
             ])
 
             ->add('orga', CheckboxType::class,[

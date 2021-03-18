@@ -18,21 +18,21 @@
     {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
 
 
-        {{ form_row(form.villes,  { 'attr' : { 'style':'display:none'} }) }}
-        {#        au clic sur la ville il appelle la fonction change_ville avec la valeur cliquée en argument. #}
-        {#        Ici this.value renvoie la value de l'option selectionnée, donc l'id de la ville#}
-        <SELECT NAME="villes" id="select_ville" onclick="change_ville(this.value)">
-            {#        <OPTION>-- Choisissez une ville ---</OPTION>#}
-            {% for ville in villes %}
-                <OPTION value="{{ ville.id }}">{{ ville.nom }}</OPTION>
-            {%  endfor %}
-        </SELECT>
+    {{ form_row(form.villes,  { 'attr' : { 'style':'display:none'} }) }}
+    {#        au clic sur la ville il appelle la fonction change_ville avec la valeur cliquée en argument. #}
+    {#        Ici this.value renvoie la value de l'option selectionnée, donc l'id de la ville#}
+    <SELECT NAME="villes" id="select_ville" onclick="change_ville(this.value)">
+        {#        <OPTION>-- Choisissez une ville ---</OPTION>#}
+        {% for ville in villes %}
+            <OPTION value="{{ ville.id }}">{{ ville.nom }}</OPTION>
+        {%  endfor %}
+    </SELECT>
 
-        {{ form_row(form.lieu,  { 'attr' : { 'style':'display:none'} }) }}
-        <SELECT NAME="lieu" id="select_lieu" >
-            {#        <OPTION>-- Choisissez un lieu ---</OPTION>#}
+    {{ form_row(form.lieu,  { 'attr' : { 'style':'display:none'} }) }}
+    <SELECT NAME="lieu" id="select_lieu" >
+        {#        <OPTION>-- Choisissez un lieu ---</OPTION>#}
 
-        </SELECT>
+    </SELECT>
 
     <div>
         Rue: <span id="rue"></span> <br>
@@ -46,11 +46,11 @@
         // je cree un tableau "poupées russes" (tableau de pointeur) avec les lieux, puis dedans les attributs des lieux
         let lieux=[
             {% for l in lieux %}
-                [{{ l.id }}, "{{ l.nom }}", "{{ l.rue }}","{{ l.latitude }}","{{ l.longitude }}","{{ l.ville.id }}",
-                    "{{ l.ville.codePostal }}","{{ l.latitude }}","{{ l.longitude}}"],
+            [{{ l.id }}, "{{ l.nom }}", "{{ l.rue }}","{{ l.latitude }}","{{ l.longitude }}","{{ l.ville.id }}",
+                "{{ l.ville.codePostal }}","{{ l.latitude }}","{{ l.longitude}}"],
             {% endfor %}
             //le 0 est une securite de fin de tableau car le tableau est ecrit avec une boucle et qu'il y aura toujours une virgule à la fin des differnts lieux
-        0];
+            0];
         //ici je fabrique un raccourci pour appeler le document.getElementById avec valeur en parametre plus rapidement
         // c'est a dire que quand je voudrais faire un document.getElementById(1), je ferai à la place un _id(1)
         //_id=(valeur)=> equivaut à function _id(valeur){...}
@@ -76,7 +76,7 @@
             }
             // j'injecte la variable temp dans le contenu (innerHTML) du select_lieu
             _id("select_lieu").innerHTML=temp;
-             change_lieu(_id("select_lieu").firstElementChild.value);
+            change_lieu(_id("select_lieu").firstElementChild.value);
         }
         // cette fonction met en forme les valeurs à reinjecter dans le select
         add_option=(id,nom)=>{

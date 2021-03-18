@@ -6,35 +6,35 @@
     <h1>Modifier une sortie</h1>
 
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-
-
 {#    {{ form_start(form) }}#}
-{#    {{ form_row(form.nom) }}#}
-{#    {{ form_row(form.dateHeureDebut) }}#}
-{#    {{ form_row(form.dateLimiteInscription) }}#}
-{#    {{ form_row(form.nbrePlacesMax) }}#}
-{#    {{ form_row(form.duree) }}#}
-{#    {{ form_row(form.description) }}#}
-{#    {{ form_row(form.villes) }}#}
-{#    {{ form_row(form.lieu) }}#}
-{#    {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}#}
-{#    <div>#}
-{#        Rue:<br>#}
-{#        Code postal:<br>#}
-{#        Latitude:<br>#}
-{#        Longitude:#}
-{#    </div>#}
-{#    {{ form_row(form.enregistrer) }}#}
-{#    {{ form_row(form.publier) }}#}
-{#    {{ form_row(form.supprimer, {'attr': {'onclick': 'return confirm("Etes vous sûr de vouloir supprimer cette sortie ?")'}}) }}#}
-{#    {{ form_row(form.annuler) }}#}
-
-
+{#    {{ form_widget(form) }}#}
+{#    <button class="btn">{{ button_label|default('Save') }}</button>#}
 {#    {{ form_end(form) }}#}
+
+
+    {{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.dateHeureDebut) }}
+    {{ form_row(form.dateLimiteInscription) }}
+    {{ form_row(form.nbrePlacesMax) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.villes) }}
+    {{ form_row(form.lieu) }}
+    {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}
+    <div>
+        Rue:<br>
+        Code postal:<br>
+        Latitude:<br>
+        Longitude:
+    </div>
+    {{ form_row(form.enregistrer) }}
+    {{ form_row(form.publier) }}
+    {{ form_row(form.supprimer, {'attr': {'onclick': 'return confirm("Etes vous sûr de vouloir supprimer cette sortie ?")'}}) }}
+    {{ form_row(form.annuler) }}
+
+
+    {{ form_end(form) }}
 
 
 {% endblock %}

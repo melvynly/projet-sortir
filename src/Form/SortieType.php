@@ -52,79 +52,72 @@ class SortieType extends AbstractType
             ->add('nbrePlacesMax')
             ->add('duree')
             ->add('description', null, ['label'=>'Description et infos'])
-            //->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
+            ->add('villes',null,['choice_label'=>'nom', 'label'=>'Ville'])
             ->add('modifAnnul',null,['label'=>'Motif: '])
-            //->add('lieu',null,['choice_label'=>'nom'])
+            ->add('lieu',null,['choice_label'=>'nom'])
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer', 'row_attr' => ['class' => 'success button']])
             ->add('publier', SubmitType::class, ['label' => 'Publier la sortie', 'row_attr' => ['class' => 'button']])
             ->add('annuler', SubmitType::class, ['label' => 'Annuler', 'row_attr' => ['class' => 'alert button']])
-            ->add('supprimer', SubmitType::class, ['label' => 'Supprimer la sortie', 'row_attr' => ['class' => 'alert button']])
-            ->add('villes',EntityType::class,[
-                'class'=>Ville::class,
-                'placeholder'=>'Choisissez une ville',
-//                'mapped'=>false,
-                'required'=>false
-            ]);
+            ->add('supprimer', SubmitType::class, ['label' => 'Supprimer la sortie', 'row_attr' => ['class' => 'alert button']]);
+//            ->add('villes',EntityType::class,[
+//                'class'=>Ville::class,
+//                'placeholder'=>'Choisissez une ville',
+////                'mapped'=>false,
+//                'required'=>false
+//            ]);
 
-        $builder->get('villes')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function(FormEvent $event){
-
-
-
-                $form=$event->getForm();
-                //dump($event->getData());
-                //dump($event->getForm());
-
-                $i=0;
-                $nomLieux=[];
-
-                $lieux=$this->lieuRepository->findAll();
-
-
-                //dump($lieux);
-
-                foreach ($lieux as $lieu){
-
-                    dump('Le numéro de la ville choisie est : '.$event->getData());
-                    dump('Le numéro de la ville du lieu est : '.$lieu->getVille()->getId());
-
-                    if($lieu->getVille()->getId()==$event->getData()){
-                        $i++;
-                        $lieuxVille[$i]=$lieu;
-                        dump($lieuxVille[$i]);
-                        dump('i ='.$i);
-
-
-                    }
-
-                }
-
-                dump($lieuxVille);
-
-                $builder = $form->getParent()->getConfig()->getFormFactory()->createNamedBuilder(
-                    'lieu',
-                    EntityType::class,
-                    null,
-                    [ //Création d'un sous-formulaire
-                        'class'=>Lieu::class,
-                        'placeholder'=>'Choisissez un lieu',
-//                    'mapped'=>false,
-                        'required'=>false,
-                        'auto_initialize'=>false,
-                        'choices'=> $lieuxVille
-                    ]
-                );
-
-
-                /*$builder->addEventListener(
-                    FormEvents::POST_SUBMIT,
-                    function (FormEvent $event){
-                        dump($event->getForm());
-                    }
-                );*/
-
-                $form->getParent()->add($builder->getForm());
+//        $builder->get('villes')->addEventListener(
+//            FormEvents::POST_SUBMIT,
+//            function(FormEvent $event){
+//
+//
+//
+//                $form=$event->getForm();
+//
+//
+//                $i=0;
+//                $nomLieux=[];
+//
+//                $lieux=$this->lieuRepository->findAll();
+//
+//
+//
+//                foreach ($lieux as $lieu){
+//
+//
+//                    if($lieu->getVille()->getId()==$event->getData()){
+//                        $i++;
+//                        $lieuxVille[$i]=$lieu;
+//
+//
+//                    }
+//
+//                }
+//
+//
+//                $builder = $form->getParent()->getConfig()->getFormFactory()->createNamedBuilder(
+//                    'lieu',
+//                    EntityType::class,
+//                    null,
+//                    [ //Création d'un sous-formulaire
+//                        'class'=>Lieu::class,
+//                        'placeholder'=>'Choisissez un lieu',
+////                    'mapped'=>false,
+//                        'required'=>false,
+//                        'auto_initialize'=>false,
+//                        'choices'=> $lieuxVille
+//                    ]
+//                );
+//
+//
+//                /*$builder->addEventListener(
+//                    FormEvents::POST_SUBMIT,
+//                    function (FormEvent $event){
+//                        dump($event->getForm());
+//                    }
+//                );*/
+//
+//                $form->getParent()->add($builder->getForm());
 
 
 //                $ville=$event->getData();
@@ -145,8 +138,8 @@ class SortieType extends AbstractType
 //
 //
 //
-        }
-        );
+//        }
+//        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
