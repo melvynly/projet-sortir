@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+
+    <form action="sortiesForm" action="" method="post">
+
+    <select name="sorties" size="10" multiple="multiple" tabindex="1">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>DateHeureDebut</th>
+            <th>Duree</th>
+            <th>DateLimiteInscription</th>
+            <th>NbrePlacesMax</th>
+            <th>Description</th>
+            <th>ModifAnnul</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <option value="{{ sortie.nom }}"><td>{{ sortie.id }}</td>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
+                <td>{{ sortie.nbrePlacesMax }}</td>
+                <td>{{ sortie.description }}</td>
+                <td>{{ sortie.modifAnnul }}</td>
+                <td>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
+                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+                </td></option>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    </select>
+        <input type="submit" name="Submit" value="Annuler" tabindex="2" />
+    </form>
+
+    <form name="userForm" action="{{ path('deleteUsers') }}" method="post">
+
+    <select name="select2" size="10" multiple="multiple" tabindex="1">
+
+    {% for user in users %}
+
+
+        <table class="table">
+            <tbody>
+                <option value="{{ user.pseudo }}">
+            <tr>
+                <td><img src="{{ asset('images/' ~ user.getPhoto()) }}" alt="ma photo"></td>
+                <option value="{{ user.pseudo }}"> <td>{{ user.pseudo }}</td>
+
+            </tr>
+            <tr>
+                <th>Prenom : </th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nom : </th>
+                <td>{{ user.nom }}</td>
+            </tr>
+
+            <tr>
+                <th>Telephone : </th>
+                <td>{{ user.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Email : </th>
+                <td>{{ user.mail }}</td>
+            </tr>
+            <tr>
+                <th>Ville de rattachement : </th>
+                <td>{{ user.site.nom }}</td>
+            </tr>
+
+                </option>
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+
+
+    {% endfor %}
+
+    </select>
+        <input type="submit" name="Submit" value="Supprimer" tabindex="2" />
+        <input type="submit" name="Submit" value="Désactiver" tabindex="2" />
+
+    </form>
+
+
+
+
+
+
+{% endblock %}

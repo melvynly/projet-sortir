@@ -111,6 +111,8 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey):Response
     {
 
+        dump($request->request->get('roles'));
+
 
         $response = new RedirectResponse($this->urlGenerator->generate('accueil'));
 

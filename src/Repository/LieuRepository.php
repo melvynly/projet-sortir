@@ -22,11 +22,11 @@ class LieuRepository extends ServiceEntityRepository
     // /**
     //  * @return Lieu[] Returns an array of Lieu objects
     //  */
-    /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
+            ->andWhere('l.ville_id = :val')
             ->setParameter('val', $value)
             ->orderBy('l.id', 'ASC')
             ->setMaxResults(10)
@@ -34,7 +34,7 @@ class LieuRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Lieu

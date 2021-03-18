@@ -26,6 +26,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @var string;
      */
     private $nom;
 
@@ -117,6 +118,12 @@ class Sortie
     {
         return $this->id;
     }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
 
     public function getNom(): ?string
     {
@@ -309,4 +316,7 @@ class Sortie
 
         return $this;
     }
+
+
+
 }
