@@ -45,8 +45,8 @@ class Sortie
     /**
      * @Assert\Type("\DateTimeInterface")
      * @Assert\Expression(
-     *     "this.getDateHeureDebut() < this.getDateLimiteInscription()",
-     *     message="La date fin ne doit pas être antérieure à la date début"
+     *     "this.getDateHeureDebut() > this.getDateLimiteInscription()",
+     *     message="La date limite d'inscription ne doit pas être superieure à la date début"
      * )
      * @ORM\Column(type="date")
      */

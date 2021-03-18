@@ -54,7 +54,6 @@ class SortieRepository extends ServiceEntityRepository
     {
         $query = $this
             ->createQueryBuilder('s');
-//            ->andWhere('s');
 //        ->select('c','p')
 //            -> join('p.categories','c');
 
@@ -81,8 +80,10 @@ class SortieRepository extends ServiceEntityRepository
 
 //        if (!empty($search->inscrit)){
 //            $query = $query
-//                ->andWhere('s.nom LIKE :q ')
-//                ->setParameter('q',"%".$search->q."%");
+//                ->andWhere('s.id = :id')
+//                ->select('u','s')
+//               -> join('s.user','u')
+//                ->setParameter('id',$user->getId());
 //        }
 //
 //        if (!empty($search->pasInscrit)){
@@ -93,7 +94,7 @@ class SortieRepository extends ServiceEntityRepository
 
         if (!empty($search->passee)){
             $query = $query
-                ->andWhere('s.dateHeureDebut > :now ')
+                ->andWhere('s.dateHeureDebut < :now ')
                 ->setParameter('now',date('Y-m-d'));
 
         }

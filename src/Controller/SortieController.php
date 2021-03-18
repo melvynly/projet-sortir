@@ -142,13 +142,13 @@ class SortieController extends AbstractController
                 }
             return $this->redirectToRoute('accueil');
         }
+
         else if ($form->get('supprimer')->isClicked()){
             $em->remove($sortie);
             $em->flush();
                 return $this->redirectToRoute('accueil');
 
             }
-
 
 
         }
