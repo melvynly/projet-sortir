@@ -28,8 +28,11 @@ class SortieController extends AbstractController
      */
     public function index(SortieRepository $sortieRepository): Response
     {
+
+
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
+
         ]);
     }
 
@@ -74,6 +77,8 @@ class SortieController extends AbstractController
 
                 //je mets d'office le nbrePlacesRestante = nbrePLacesMax
                 $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
+
+                dump($sortie->getDateHeureDebut());
 
 
                 $em->persist($sortie);

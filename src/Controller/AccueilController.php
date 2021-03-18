@@ -6,7 +6,7 @@ use App\Repository\EtatRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
-use Cassandra\Date;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +25,35 @@ class AccueilController extends AbstractController
         $today=new \DateTime("now");
 
         foreach ($sorties as $s){
-            $dateDebut= $s->getDateHeureDebut();
+
+
+            $dateHeureDebut= $s->getDateHeureDebut();
+
+            $datetime=$dateHeureDebut;
+//
+//
+//
             $duree= $s->getDuree();
-            $dateFin=date_add($dateDebut, date_interval_create_from_date_string("$duree day"));
-            $dateArchive=date_add($dateFin, date_interval_create_from_date_string("1 month"));
+//
+//            $timestamp=$datetime->getTimestamp()+$duree*60;
+//
+//            $datetime->
+//
+//
+//
+//            $s->setDateHeureDebut()
+
+            //dump($dateHeureDebut->format("d/m/y")." day");
+
+            $dateFin=$dateHeureDebut;
+            $dateArchive=$dateHeureDebut;
+
+            //$timestamp=$dateHeureDebut->getTimestamp()->format("d/m/y");
+            //$timestampFormat=strftime("d/m/y",$timestamp);
+
+            //dump($timestampFormat." day");
+            $dateFin=date_add($dateFin, date_interval_create_from_date_string($duree." mins"));
+            $dateArchive=date_add($dateArchive, date_interval_create_from_date_string("1 month"));
 
             // si elle est annulée, créée ou publiée, pas de changement d'état
             if (!$s->getEtat()->getLibelle()=='Annulée'){}
@@ -73,6 +98,8 @@ class AccueilController extends AbstractController
 
         ]);
     }
+
+
 
 
 }

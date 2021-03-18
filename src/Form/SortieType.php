@@ -39,6 +39,7 @@ class SortieType extends AbstractType
             ->add('nom',null,['label'=>'Nom de la sortie'])
             ->add('dateHeureDebut',DateTimeType::class, [
                 // Il faut diviser la date et l'heure pour pouvoir les modifier
+//                'view_timezone' => 'Europe/Paris',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
 

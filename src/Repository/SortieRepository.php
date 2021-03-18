@@ -47,4 +47,9 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findSearch(){
+        return $this->findAll();
+
+    }
 }
