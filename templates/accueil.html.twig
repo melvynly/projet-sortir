@@ -112,16 +112,7 @@
 {#                                {% for u in s.users %}#}
 {#                                {% if u.id == app.user.id %}#}
 
-                                {% set verifInscript=false%}
-
-                                {% for u in s.users %}
-
-                                {% endfor %}
-
-                                {% if verifInscript %}
-
-                                    <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
-                                {% endif %}
+                                <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
 
 
 {#                                {% endfor %}#}
