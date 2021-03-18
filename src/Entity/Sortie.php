@@ -6,6 +6,11 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+//use Symfony\Component\Validator\Constraints;
+//use Symfony\Component\Validator\Constraints\Expression;
+//use Symfony\Component\Validator\Tests\Constraints as Assert;
+//use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -25,6 +30,8 @@ class Sortie
     private $nom;
 
     /**
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThan("today")
      * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
@@ -35,6 +42,11 @@ class Sortie
     private $duree;
 
     /**
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\Expression(
+     *     "this.getDateHeureDebut() < this.getDateLimiteInscription()",
+     *     message="La date fin ne doit pas être antérieure à la date début"
+     * )
      * @ORM\Column(type="date")
      */
     private $dateLimiteInscription;
@@ -117,7 +129,18 @@ class Sortie
 
         return $this;
     }
+    // Je créer une seconde methode pour le soucis d'affichage dans le tableau de l'accuueil à cause du date_add
+    // Recupere la date via la méthode getDateHeureDebut et la transforme en string
+    public function getDateHeureDebutFormat()
+    {
+        setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
 
+        $date1 = $this->getDateHeureDebut()->getTimestamp();
+
+        $datedebut = strftime('%Y-%m-%d %T',$date1);
+
+        return $datedebut;
+    }
     public function getDateHeureDebut(): ?\DateTimeInterface
     {
         return $this->dateHeureDebut;

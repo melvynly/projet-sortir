@@ -144,12 +144,12 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword()
     {
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword( $password): self
     {
         $this->password = $password;
 

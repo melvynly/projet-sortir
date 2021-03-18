@@ -75,6 +75,7 @@ final class Versions
   'symfony/error-handler' => 'v5.2.4@b547d3babcab5c31e01de59ee33e9d9c1421d7d0',
   'symfony/event-dispatcher' => 'v5.2.4@d08d6ec121a425897951900ab692b612a61d6240',
   'symfony/event-dispatcher-contracts' => 'v2.2.0@0ba7d54483095a198fa51781bc608d17e84dffa2',
+  'symfony/expression-language' => 'v5.2.4@3fc560e62bc5121751b792b11505db03a12cf83c',
   'symfony/filesystem' => 'v5.2.4@710d364200997a5afde34d9fe57bd52f3cc1e108',
   'symfony/finder' => 'v5.2.4@0d639a0943822626290d169965804f79400e6a04',
   'symfony/flex' => 'v1.12.2@e472606b4b3173564f0edbca8f5d32b52fc4f2c9',
@@ -121,10 +122,10 @@ final class Versions
   'symfonycasts/reset-password-bundle' => 'v1.5.0@d0a1af0b7869069d76808e76ae72cbf31b1a6b3f',
   'twig/extra-bundle' => 'v3.3.0@e2d27a86c3f47859eb07808fa7c8679d30fcbdde',
   'twig/twig' => 'v3.3.0@1f3b7e2c06cc05d42936a8ad508ff1db7975cdc5',
-  'symfony/polyfill-ctype' => '*@c9a334ad092e1efc08ffc609ef254b1e525f3ef8',
-  'symfony/polyfill-iconv' => '*@c9a334ad092e1efc08ffc609ef254b1e525f3ef8',
-  'symfony/polyfill-php72' => '*@c9a334ad092e1efc08ffc609ef254b1e525f3ef8',
-  '__root__' => 'dev-master@c9a334ad092e1efc08ffc609ef254b1e525f3ef8',
+  'symfony/polyfill-ctype' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
+  'symfony/polyfill-iconv' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
+  'symfony/polyfill-php72' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
+  '__root__' => 'dev-master@07a3195d53d722263e8d7d9c50b59cbd38c20454',
 );
 
     private function __construct()
