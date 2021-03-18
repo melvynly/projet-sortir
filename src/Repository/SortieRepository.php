@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+
+use App\Data\RechercheDonnees;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -50,7 +53,7 @@ class SortieRepository extends ServiceEntityRepository
     */
 
 
-    public function findSearch(\RechercheDonnees $search, $user):array
+    public function findSearch(RechercheDonnees $search, $user):array
     {
         $query = $this
             ->createQueryBuilder('s');

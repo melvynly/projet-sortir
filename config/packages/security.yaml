@@ -27,7 +27,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: app_login
+                target: accueil
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
@@ -52,3 +52,5 @@ security:
         - { path: ^/user, roles: [ROLE_ADMIN,ROLE_USER] }
         - { path: ^/sortie, roles: [ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/lieu, roles: [ROLE_ADMIN,ROLE_USER] }
+
+

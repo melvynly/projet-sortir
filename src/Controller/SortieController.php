@@ -29,8 +29,6 @@ class SortieController extends AbstractController
      */
     public function index(SortieRepository $sortieRepository): Response
     {
-
-
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
 
@@ -222,10 +220,10 @@ class SortieController extends AbstractController
         //verifier que la date limite d'inscription est ok
         if ($sortie->getDateLimiteInscription() > $today) {
 
-        $dql = "SELECT user_id FROM sortie_user " .
-        "WHERE sortie_id = ".$sortie->getId();
-        $resul = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
-        dump($resul);
+//        $dql = "SELECT user_id FROM sortie_user " .
+//        "WHERE sortie_id = ".$sortie->getId();
+//        $result = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
+//        dump($result);
 
 
 

@@ -122,10 +122,10 @@ final class Versions
   'symfonycasts/reset-password-bundle' => 'v1.5.0@d0a1af0b7869069d76808e76ae72cbf31b1a6b3f',
   'twig/extra-bundle' => 'v3.3.0@e2d27a86c3f47859eb07808fa7c8679d30fcbdde',
   'twig/twig' => 'v3.3.0@1f3b7e2c06cc05d42936a8ad508ff1db7975cdc5',
-  'symfony/polyfill-ctype' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
-  'symfony/polyfill-iconv' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
-  'symfony/polyfill-php72' => '*@07a3195d53d722263e8d7d9c50b59cbd38c20454',
-  '__root__' => 'dev-master@07a3195d53d722263e8d7d9c50b59cbd38c20454',
+  'symfony/polyfill-ctype' => '*@894bf626c6dc42e154e22acec00dbb1dd6af2a1c',
+  'symfony/polyfill-iconv' => '*@894bf626c6dc42e154e22acec00dbb1dd6af2a1c',
+  'symfony/polyfill-php72' => '*@894bf626c6dc42e154e22acec00dbb1dd6af2a1c',
+  '__root__' => 'dev-master@894bf626c6dc42e154e22acec00dbb1dd6af2a1c',
 );
 
     private function __construct()

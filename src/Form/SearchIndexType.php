@@ -4,6 +4,7 @@ namespace App\Form;
 
 
 
+use App\Data\RechercheDonnees;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -88,7 +89,7 @@ class SearchIndexType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => \RechercheDonnees::class,
+            'data_class' => RechercheDonnees::class,
             'method' => 'GET',
             'csrf_protection' => false
         ]);

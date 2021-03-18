@@ -109,11 +109,11 @@
                         {% if  s.dateLimiteInscription > date() %}
                             {% if s.nbrePlacesRestantes >0 %}
 {#                         TODO si l'user n'est pas déjà inscrit#}
-                                {% for u in s.users %}
-                                {% if u.id == app.user.id %}
+{#                                {% for u in s.users %}#}
+{#                                {% if u.id == app.user.id %}#}
                                     <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
-                                {% endif %}
-                                {% endfor %}
+{#                                {% endif %}#}
+{#                                {% endfor %}#}
                             {% endif %}
                          {% endif %}
                 {% endif %}

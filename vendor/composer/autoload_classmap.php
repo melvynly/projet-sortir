@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Controller\\AccueilController' => $baseDir . '/src/Controller/AccueilController.php',
+    'App\\Controller\\AdminController' => $baseDir . '/src/Controller/AdminController.php',
     'App\\Controller\\FiltreController' => $baseDir . '/src/Controller/FiltreController.php',
     'App\\Controller\\LieuController' => $baseDir . '/src/Controller/LieuController.php',
     'App\\Controller\\RegistrationController' => $baseDir . '/src/Controller/RegistrationController.php',
@@ -15,6 +16,7 @@ return array(
     'App\\Controller\\SortieController' => $baseDir . '/src/Controller/SortieController.php',
     'App\\Controller\\UserController' => $baseDir . '/src/Controller/UserController.php',
     'App\\Controller\\VilleController' => $baseDir . '/src/Controller/VilleController.php',
+    'App\\Data\\RechercheDonnees' => $baseDir . '/src/Data/RechercheDonnees.php',
     'App\\Entity\\Etat' => $baseDir . '/src/Entity/Etat.php',
     'App\\Entity\\Lieu' => $baseDir . '/src/Entity/Lieu.php',
     'App\\Entity\\Site' => $baseDir . '/src/Entity/Site.php',
@@ -24,6 +26,7 @@ return array(
     'App\\Form\\LieuType' => $baseDir . '/src/Form/LieuType.php',
     'App\\Form\\RegenPasswordType' => $baseDir . '/src/Form/RegenPasswordType.php',
     'App\\Form\\RegistrationFormType' => $baseDir . '/src/Form/RegistrationFormType.php',
+    'App\\Form\\SearchIndexType' => $baseDir . '/src/Form/SearchIndexType.php',
     'App\\Form\\SiteType' => $baseDir . '/src/Form/SiteType.php',
     'App\\Form\\SortieType' => $baseDir . '/src/Form/SortieType.php',
     'App\\Form\\UserType' => $baseDir . '/src/Form/UserType.php',

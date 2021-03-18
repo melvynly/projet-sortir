@@ -494,6 +494,7 @@ class ComposerStaticInit1d7e8f216acdb62990737920b6657ea9
 
     public static $classMap = array (
         'App\\Controller\\AccueilController' => __DIR__ . '/../..' . '/src/Controller/AccueilController.php',
+        'App\\Controller\\AdminController' => __DIR__ . '/../..' . '/src/Controller/AdminController.php',
         'App\\Controller\\FiltreController' => __DIR__ . '/../..' . '/src/Controller/FiltreController.php',
         'App\\Controller\\LieuController' => __DIR__ . '/../..' . '/src/Controller/LieuController.php',
         'App\\Controller\\RegistrationController' => __DIR__ . '/../..' . '/src/Controller/RegistrationController.php',
@@ -502,6 +503,7 @@ class ComposerStaticInit1d7e8f216acdb62990737920b6657ea9
         'App\\Controller\\SortieController' => __DIR__ . '/../..' . '/src/Controller/SortieController.php',
         'App\\Controller\\UserController' => __DIR__ . '/../..' . '/src/Controller/UserController.php',
         'App\\Controller\\VilleController' => __DIR__ . '/../..' . '/src/Controller/VilleController.php',
+        'App\\Data\\RechercheDonnees' => __DIR__ . '/../..' . '/src/Data/RechercheDonnees.php',
         'App\\Entity\\Etat' => __DIR__ . '/../..' . '/src/Entity/Etat.php',
         'App\\Entity\\Lieu' => __DIR__ . '/../..' . '/src/Entity/Lieu.php',
         'App\\Entity\\Site' => __DIR__ . '/../..' . '/src/Entity/Site.php',
@@ -511,6 +513,7 @@ class ComposerStaticInit1d7e8f216acdb62990737920b6657ea9
         'App\\Form\\LieuType' => __DIR__ . '/../..' . '/src/Form/LieuType.php',
         'App\\Form\\RegenPasswordType' => __DIR__ . '/../..' . '/src/Form/RegenPasswordType.php',
         'App\\Form\\RegistrationFormType' => __DIR__ . '/../..' . '/src/Form/RegistrationFormType.php',
+        'App\\Form\\SearchIndexType' => __DIR__ . '/../..' . '/src/Form/SearchIndexType.php',
         'App\\Form\\SiteType' => __DIR__ . '/../..' . '/src/Form/SiteType.php',
         'App\\Form\\SortieType' => __DIR__ . '/../..' . '/src/Form/SortieType.php',
         'App\\Form\\UserType' => __DIR__ . '/../..' . '/src/Form/UserType.php',
