@@ -10,42 +10,50 @@
 
     <h3>Filtrer les sorties</h3>
 
-    <form action="{{ path("filtre", {'id': app.user.id})}}" method="get">
-        <label for="site">Site : </label>
-        <select type="text" name="site" id="site">
-            {% for s in sites %}
-        <option >{{ s.nom }} </option>
-            {% endfor %}
-        </select>
+    <div>
+        {{ form_start(form1) }}
+        {{ form_widget(form1) }}
+        <button type="submit">Rechercher</button>
+        {{ form_end(form1) }}
 
-            <br>
+    </div>
 
-        <label for="nom">Le nom de la sortie contient : </label>
-        <input type="search" name="nom" id="nom"> <br>
 
-        <label for="dateDebut">Entre </label>
-        <input type="date" name="dateDebut" id="dateDebut">
+{#    <form action="{{ path("filtre", {'id': app.user.id})}}" method="get">#}
+{#        <label for="site">Site : </label>#}
+{#        <select type="text" name="site" id="site">#}
+{#            {% for s in sites %}#}
+{#        <option >{{ s.nom }} </option>#}
+{#            {% endfor %}#}
+{#        </select>#}
 
-        <label for="dateFin"> et </label>
-        <input type="date" name="dateFin" id="dateFin"> <br>
+{#            <br>#}
 
-        <input type="checkbox" name="orga" id="orga">
-        <label for="orga"> Sorties dont je suis l'organisateur/trice </label><br>
+{#        <label for="nom">Le nom de la sortie contient : </label>#}
+{#        <input type="search" name="nom" id="nom"> <br>#}
 
-        <input type="checkbox" name="inscrit" id="inscrit">
-        <label for="inscrit"> Sorties auxquelles je suis inscrit/e </label><br>
+{#        <label for="dateDebut">Entre </label>#}
+{#        <input type="date" name="dateDebut" id="dateDebut">#}
 
-        <input type="checkbox" name="pasInscrit" id="pasInscrit">
-        <label for="pasInscrit"> Sorties auxquelles je ne suis pas inscrit/e </label><br>
+{#        <label for="dateFin"> et </label>#}
+{#        <input type="date" name="dateFin" id="dateFin"> <br>#}
 
-        <input type="checkbox" name="passe" id="passe">
-        <label for="passe"> Sorties passées </label><br>
+{#        <input type="checkbox" name="orga" id="orga">#}
+{#        <label for="orga"> Sorties dont je suis l'organisateur/trice </label><br>#}
 
-        <button class="button" type="submit">Rechercher</button>
-{#        <a href="{{ path('select', {'id': s.id }) }}">Rechercher </a>#}
-{#        {% endfor %}#}
+{#        <input type="checkbox" name="inscrit" id="inscrit">#}
+{#        <label for="inscrit"> Sorties auxquelles je suis inscrit/e </label><br>#}
 
-    </form>
+{#        <input type="checkbox" name="pasInscrit" id="pasInscrit">#}
+{#        <label for="pasInscrit"> Sorties auxquelles je ne suis pas inscrit/e </label><br>#}
+
+{#        <input type="checkbox" name="passe" id="passe">#}
+{#        <label for="passe"> Sorties passées </label><br>#}
+
+{#        <button class="button" type="submit">Rechercher</button>#}
+
+
+{#    </form>#}
 
 <table class="table">
     <tbody>
@@ -64,7 +72,6 @@
         {% for s in sorties %}
         {% if s.etat.libelle != 'Archivée' %}
         <td>{{ s.nom }}</td>
-{#        <td>{{ s.dateHeureDebut | format_datetime('full', 'short', locale='fr')}}</td>#}
         <td>{{ s.dateHeureDebut |date('d/m/Y H:i')}}</td>
         <td>{{ s.dateLimiteInscription | date('d/m/Y')}}</td>
         <td> {{ s.nbrePlacesRestantes }}/{{ s.nbrePlacesMax }}</td>
@@ -88,8 +95,8 @@
                     <a href="{{ path('sortie_edit', {'id': s.id }) }}">Modifier</a>
                     <a href="{{ path('sortie_publier', {'id': s.id }) }}">Publier </a>
                 {% endif %}
-{#                si l'état est ouverte line vers annuler#}
-                {% if s.etat.libelle == 'Ouverte'%}
+{#                si l'état est ouverte lien vers annuler#}
+                {% if (s.etat.libelle == 'Ouverte') or (s.etat.libelle == 'Créée')%}
                     <a href="{{ path('sortie_annuler', {'id': s.id }) }}">Annuler</a>
                 {% endif %}
 
@@ -102,11 +109,11 @@
                         {% if  s.dateLimiteInscription > date() %}
                             {% if s.nbrePlacesRestantes >0 %}
 {#                         TODO si l'user n'est pas déjà inscrit#}
-{#                                {% for u in s.users %}#}
-{#                                {% if u.id == app.user.id %}#}
+                                {% for u in s.users %}
+                                {% if u.id == app.user.id %}
                                     <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
-{#                                {% endif %}#}
-{#                                {% endfor %}#}
+                                {% endif %}
+                                {% endfor %}
                             {% endif %}
                          {% endif %}
                 {% endif %}

@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -36,8 +37,9 @@ class SortieController extends AbstractController
     /**
      * @Route("/new/{id}", name="sortie_new", methods={"GET","POST"})
      */
-    public function new($id,Request $request, EntityManagerInterface $em, UserRepository $repoUser, EtatRepository $repoEtat, VilleRepository $repoVille): Response
+    public function new($id,Request $request, EntityManagerInterface $em, LieuRepository $repoLieu, UserRepository $repoUser, EtatRepository $repoEtat, VilleRepository $repoVille): Response
     {
+        $lieux = $repoLieu->findAll();
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -85,6 +87,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form->createView(),
             'villes' => $villes,
+            'lieux'=>$lieux
         ]);
     }
 
