@@ -1,7 +1,8 @@
 <?php
 
-
+namespace App\Data;
 // objet qui va representer les données de recherche
+
 class RechercheDonnees
 {
 
@@ -69,8 +70,9 @@ class RechercheDonnees
 
     public function __toString()
     {
-       return $this->q;
+        return $this->q;
     }
 
 
 }
+
