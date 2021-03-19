@@ -38,10 +38,10 @@
                 {{ form_widget(form.nbrePlacesMax, { 'attr' : { 'style':'display:none'}}) }}
                 {{ form_widget(form.duree, { 'attr' : { 'style':'display:none'}}) }}
                 {{ form_widget(form.description, { 'attr' : { 'style':'display:none'}}) }}
-                {{ form_widget(form.lieu, { 'attr' : { 'style':'display:none'}}) }}
+{#                {{ form_widget(form.lieu, { 'attr' : { 'style':'display:none'}}) }}#}
                 {{ form_widget(form.publier, { 'attr' : { 'style':'display:none'}}) }}
                 {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
-                {{ form_widget(form.villes, { 'attr' : { 'style':'display:none'}}) }}
+{#                {{ form_widget(form.villes, { 'attr' : { 'style':'display:none'}}) }}#}
                 {{ form_widget(form.modifAnnul) }}
 
             </td>
@@ -49,6 +49,7 @@
 
         </tbody>
     </table>
+
 
     {{ form_widget(form.enregistrer) }}
     {{ form_widget(form.annuler) }}

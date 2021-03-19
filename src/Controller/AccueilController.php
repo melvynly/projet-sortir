@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Data\RechercheDonnees;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +40,23 @@ class AccueilController extends AbstractController
         $form1->handleRequest($request);
 
         $sorties = $repoSortie->findSearch($data, $user);
+
+//        // je récupère les sites pour pouvoir les exploiter dans la liste déroulante
+//        $tab=[];
+//        $tabSites= $repoSite->findAll();
+//        foreach ($tabSites as $tabSite) {
+//            // dans un nouveau tableau je remplace l'indice par la nom du site
+//            $tab[$tabSite->getNom()]= $tabSite ;
+//        }
+//
+//        //ajout d'un champ liste déroulante au formulaire, affichant les valeurs du tableau de sites
+//        $form1
+//            ->add('sitesDispos', ChoiceType::class, [
+//                'label' => 'Site : ',
+//                'choices' => $tab
+//            ]);
+
+
 
         $today=new \DateTime("now");
 
@@ -102,7 +120,7 @@ class AccueilController extends AbstractController
             'sorties'=>$sorties,
             'form1'=> $form1->createView(),
             'sites'=>$sites,
-            'userSortie'=> $userSortie
+            //'userSortie'=> $userSortie
             //'sorties'=>$sorties,
 
         ]);

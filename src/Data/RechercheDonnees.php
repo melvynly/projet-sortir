@@ -43,6 +43,11 @@ class RechercheDonnees
      */
     public $passee;
 
+//    /**
+//     * array
+//     */
+    public $sitesDispos;
+
 
 
 //    // tableau des categories
