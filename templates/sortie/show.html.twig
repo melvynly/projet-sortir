@@ -63,18 +63,22 @@
     <div>
         Liste des participants inscrits :
         <table class="table">
-            <tbody>
 
+            <thead>
             <tr>
                 <th>Pseudo</th>
                 <th>Nom</th>
             </tr>
+             </thead>
+            <tbody>
+            {% for p in participants %}
             <tr>
-                {% for p in participants %}
+
                 <td>{{ p.pseudo }}</td>
                 <td>{{ p.nom }}</td>
-                {% endfor %}
+
             </tr>
+            {% endfor %}
 
             </tbody>
         </table>

@@ -32,11 +32,11 @@
 
             {%  if is_granted('ROLE_ADMIN') %}
 
-                <li><a class="nav-link" href="{{path('admin_index')}}">Espace Admin</a></li>
+{#                <li><a class="nav-link" href="{{path('admin_index')}}">Espace Admin</a></li>#}
 
-{#            <li><a class="nav-link" href="{{path('ville')}}">Villes</a></li>#}
-{#            <li><a class="nav-link" href="{{path('site_index')}}">Sites</a></li>#}
-{#            <li><a class="nav-link" href="{{path('app_register')}}">Enregistrer un utilisateur</a></li>#}
+            <li><a class="nav-link" href="{{path('ville')}}">Villes</a></li>
+            <li><a class="nav-link" href="{{path('site_index')}}">Sites</a></li>
+            <li><a class="nav-link" href="{{path('app_register')}}">Enregistrer un utilisateur</a></li>
 
             {% endif %}
 
