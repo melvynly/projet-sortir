@@ -46,10 +46,10 @@ class AccueilController extends AbstractController
             $dateDebut = $s->getDateHeureDebut();
 
 
-            //$duree= $s->getDuree();
-            //$dateFin = date_add($d1, date_interval_create_from_date_string("$duree day"));;
+            $duree= $s->getDuree();
+            //$dateFin = date_add($d1, date_interval_create_from_date_string("$duree minutes"));;
 
-            // si elle est annulée, créée ou publiée, pas de changement d'état
+            // si elle est annulée, pas de changement d'état
             if (!$s->getEtat()->getLibelle()=='Annulée'){}
             else {
 
@@ -68,7 +68,7 @@ class AccueilController extends AbstractController
                     $em->flush();
                 }
                 // si la date de debut + duree est dépaséee alors elle passe en passée
-                if ($today> $s->getDateHeureDebut()){
+                if ($today> date_add($d1, date_interval_create_from_date_string(" $duree minutes"))){
                     $etat= $repoEtat->findOneBy(["libelle" =>'Passée']);
                     $s->setEtat($etat);
                     $em->persist($etat);

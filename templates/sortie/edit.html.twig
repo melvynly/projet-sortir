@@ -19,15 +19,92 @@
     {{ form_row(form.nbrePlacesMax) }}
     {{ form_row(form.duree) }}
     {{ form_row(form.description) }}
-    {{ form_row(form.villes) }}
-    {{ form_row(form.lieu) }}
+{#    {{ form_row(form.villes,  { 'attr' : { 'style':'display:none'} })}}#}
+{#    {{ form_row(form.lieu,  { 'attr' : { 'style':'display:none'} }) }}#}
     {{ form_widget(form.modifAnnul,  { 'attr' : { 'style':'display:none'} }) }}
+
+
+    {#        au clic sur la ville il appelle la fonction change_ville avec la valeur cliquée en argument. #}
+    {#        Ici this.value renvoie la value de l'option selectionnée, donc l'id de la ville#}
+    <SELECT NAME="villes" id="select_ville" onclick="change_ville(this.value)">
+        {#        <OPTION>-- Choisissez une ville ---</OPTION>#}
+        {% for ville in villes %}
+            <OPTION value="{{ ville.id }}">{{ ville.nom }}</OPTION>
+        {%  endfor %}
+    </SELECT>
+
+
+    <SELECT NAME="lieu" id="select_lieu"  onclick="change_lieu(this.value)">
+        {#        <OPTION>-- Choisissez un lieu ---</OPTION>#}
+
+    </SELECT>
+
     <div>
-        Rue:<br>
-        Code postal:<br>
-        Latitude:<br>
-        Longitude:
+        Rue: <span id="rue"></span> <br>
+        Code postal: <span id="cp"></span> <br>
+        Latitude: <span id="lat"></span> <br>
+        Longitude: <span id="long"></span>
     </div>
+
+    <script>
+        // je cree un tableau "poupées russes" (tableau de pointeur) avec les lieux, puis dedans les attributs des lieux
+        let lieux=[
+            {% for l in lieux %}
+            [{{ l.id }}, "{{ l.nom }}", "{{ l.rue }}","{{ l.latitude }}","{{ l.longitude }}","{{ l.ville.id }}",
+                "{{ l.ville.codePostal }}","{{ l.latitude }}","{{ l.longitude}}"],
+            {% endfor %}
+            //le 0 est une securite de fin de tableau car le tableau est ecrit avec une boucle et qu'il y aura toujours une virgule à la fin des differnts lieux
+            0];
+        //ici je fabrique un raccourci pour appeler le document.getElementById avec valeur en parametre plus rapidement
+        // c'est a dire que quand je voudrais faire un document.getElementById(1), je ferai à la place un _id(1)
+        //_id=(valeur)=> equivaut à function _id(valeur){...}
+        _id=(valeur)=>{return document.getElementById(valeur);}
+
+        //la fonction init sera executée au chargement de la page ( on le précise à la fin du script)
+        //ici, elle simule le clic sur le 1ere element en executant la fonction change_ville sur le 1er element du select,
+        // ainsi cela affichera les lieux correspondants à ce 1er element (ici le select_ville correspond à l'id du select)
+        //init=()=> equivaut à function init(){...}
+        init= () =>{change_ville(_id("select_ville").firstElementChild.value)}
+
+        change_ville=(id_ville)=>{
+            //je cree une variable temporaire pour lister les lieux correspondants à 'id_ville passé en argument
+            let temp="";
+            // je boucle sur le tableau lieux
+            for(let i=0; i< lieux.length; i++){
+                // si l'idVille dans du tableau lieux correspond à l'id passé en parametre
+                if (lieux[i][5] == id_ville){
+                    //alors je rempli la variable temporaire et je concantène au cas où il y ai plusieurs lieux correspondants
+                    //pour cela j'appelle la fonction add_option déclarée plus bas qui met en forme les valeurs passées en paramètre (ici l'id et le nom du lieu)
+                    temp+= add_option (lieux[i][0], lieux[i][1]);
+                }
+            }
+            // j'injecte la variable temp dans le contenu (innerHTML) du select_lieu
+            _id("select_lieu").innerHTML=temp;
+            change_lieu(_id("select_lieu").firstElementChild.value);
+        }
+        // cette fonction met en forme les valeurs à reinjecter dans le select
+        add_option=(id,nom)=>{
+            return "<option value='"+id+"'>"+nom+"</option>";
+        }
+        //change_lieu mettra a jour affichage de rue, cp etc...
+        change_lieu=(id_lieu)=>{
+            for(let i=0; i<lieux.length; i++){
+                if (lieux[i][0]==id_lieu){
+                    // je place les infos dans le span correspondant (ici pou la 1ere ligne dans le <span id='rue'>ici</span>
+                    _id("rue").innerHTML = lieux[i][2];
+                    _id("cp").innerHTML = lieux[i][6];
+                    _id("lat").innerHTML = lieux[i][7];
+                    _id("long").innerHTML = lieux[i][8];
+                }
+            }
+        }
+        // EventListener ecoute l'evenement 'load' ( mouvement de la page qui est chargée) et appelle la fonction init
+        // ie la fonction init est appellée au chargement de la page
+        window.addEventListener("load",init,false);
+
+    </script>
+
+
     {{ form_row(form.enregistrer) }}
     {{ form_row(form.publier) }}
     {{ form_row(form.supprimer, {'attr': {'onclick': 'return confirm("Etes vous sûr de vouloir supprimer cette sortie ?")'}}) }}
