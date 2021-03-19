@@ -238,7 +238,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/inscrire/{idUser}/{idSortie}", name="sortie_inscrire")
      */
-    public function inscrire ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite): Response
+    public function inscrire ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite, EntityManagerInterface $em): Response
     {
 
         $user= $repoUser->find($idUser);
@@ -249,27 +249,18 @@ class SortieController extends AbstractController
         //verifier que la date limite d'inscription est ok
         if ($sortie->getDateLimiteInscription() > $today) {
 
-//        $dql = "SELECT user_id FROM sortie_user " .
-//        "WHERE sortie_id = ".$sortie->getId();
-//        $resul = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
-//        dump($resul);
-
-
-
             //verifier si pas dejà inscrit
-//            foreach ($inscrits as $inscrit) {
-//                if (! $inscrit->getId() === $user->getId()){
-                       $sortie->addUser($user);
-                    //enlever une place restante à chaque inscription
+            $sortie2 =  $repoSortie->findByIdVerifInscrit($user, $sortie);
+            if ($sortie2 == null) {
 
-                    if ($sortie->getNbrePlacesRestantes() > 0) {
-                        $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
-                    }
-                    $this->getDoctrine()->getManager()->flush();
-//                }
-//
-//            }
+                $sortie->addUser($user);
+                //enlever une place restante à chaque inscription
 
+                if ($sortie->getNbrePlacesRestantes() > 0) {
+                    $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
+                }
+                $this->getDoctrine()->getManager()->flush();
+            }
         }
 
         return $this->redirectToRoute('accueil');
