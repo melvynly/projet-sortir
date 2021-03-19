@@ -18,7 +18,7 @@
     {{ form_widget(form.supprimer, { 'attr' : { 'style':'display:none'}}) }}
 
 
-    {{ form_row(form.villes,  { 'attr' : { 'style':'display:none'} }) }}
+{#    {{ form_row(form.villes,  { 'attr' : { 'style':'display:none'} }) }}#}
     {#        au clic sur la ville il appelle la fonction change_ville avec la valeur cliquée en argument. #}
     {#        Ici this.value renvoie la value de l'option selectionnée, donc l'id de la ville#}
     <SELECT NAME="villes" id="select_ville" onclick="change_ville(this.value)">
@@ -28,8 +28,8 @@
         {%  endfor %}
     </SELECT>
 
-    {{ form_row(form.lieu,  { 'attr' : { 'style':'display:none'} }) }}
-    <SELECT NAME="lieu" id="select_lieu" >
+{#    {{ form_row(form.lieu,  { 'attr' : { 'style':'display:none'} }) }}#}
+    <SELECT NAME="lieu" id="select_lieu"  onclick="change_lieu(this.value)">
         {#        <OPTION>-- Choisissez un lieu ---</OPTION>#}
 
     </SELECT>

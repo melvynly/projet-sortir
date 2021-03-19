@@ -29,8 +29,6 @@ class SortieController extends AbstractController
      */
     public function index(SortieRepository $sortieRepository): Response
     {
-
-
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
 
@@ -67,7 +65,7 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('accueil');
             }
 
-            if(!$form->get('lieu')->isEmpty()){
+//            if(!$form->get('lieu')->isEmpty()){
 
                 //je mets d'office la personne identifié comme organisatrice
                 $organisateur= $repoUser->find($id);
@@ -80,14 +78,24 @@ class SortieController extends AbstractController
                 //je mets d'office le nbrePlacesRestante = nbrePLacesMax
                 $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesMax());
 
-                dump($sortie->getDateHeureDebut());
+
+                // je récupère les valeur des select grace à leur name ( retourne la value déclarée au niveau des options, ici l'id)
+                // pour la ville
+                $id_ville= $request->request->get('villes');
+                $ville= $repoVille->find($id_ville);
+                $sortie->setVilles($ville);
+                // pour le lieu
+                $id_lieu= $request->request->get('lieu');
+                $lieu= $repoLieu->find($id_lieu);
+                $sortie->setLieu($lieu);
+
 
 
                 $em->persist($sortie);
                 $em->flush();
 
                 return $this->redirectToRoute('accueil');
-            }
+//            }
 
 
 
@@ -119,31 +127,46 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="sortie_edit")
      */
-    public function edit(EntityManagerInterface $em, Request $request, EtatRepository $repoEtat, Sortie $sortie): Response
+    public function edit(EntityManagerInterface $em, LieuRepository $repoLieu, VilleRepository $repoVille, Request $request, EtatRepository $repoEtat, Sortie $sortie): Response
     {
+        $villes = $repoVille->findAll();
+        $lieux = $repoLieu->findAll();
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if(!$form->get('lieu')->isEmpty()){
+//            if(!$form->get('lieu')->isEmpty()){
+
+            // je récupère les valeur des select grace à leur name ( retourne la value déclarée au niveau des options, ici l'id)
+            // pour la ville
+            $id_ville= $request->request->get('villes');
+            $ville= $repoVille->find($id_ville);
+            $sortie->setVilles($ville);
+            // pour le lieu
+            $id_lieu= $request->request->get('lieu');
+            $lieu= $repoLieu->find($id_lieu);
+            $sortie->setLieu($lieu);
 
                 if ($form->get('enregistrer')->isClicked()){
 
                     $this->getDoctrine()->getManager()->flush();
+                    return $this->redirectToRoute('accueil');
                 }
-                if ($form->get('publier')->isClicked()){
+                elseif ($form->get('publier')->isClicked()){
 
 
 
                     $etat = $repoEtat->findOneBy(["libelle" => 'Ouverte']);
                     $sortie->setEtat($etat);
                     $this->getDoctrine()->getManager()->flush();
+                    return $this->redirectToRoute('accueil');
 
-                }
-            return $this->redirectToRoute('accueil');
+//                }
+
         }
 
-        else if ($form->get('supprimer')->isClicked()){
+        elseif ($form->get('supprimer')->isClicked()){
             $em->remove($sortie);
             $em->flush();
                 return $this->redirectToRoute('accueil');
@@ -156,6 +179,8 @@ class SortieController extends AbstractController
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
+            'villes' => $villes,
+            'lieux'=>$lieux
         ]);
     }
 
@@ -211,7 +236,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/inscrire/{idUser}/{idSortie}", name="sortie_inscrire")
      */
-    public function inscrire ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite): Response
+    public function inscrire ($idUser, $idSortie, SortieRepository $repoSortie, UserRepository $repoUser, SiteRepository $repoSite, EntityManagerInterface $em): Response
     {
 
         $user= $repoUser->find($idUser);
@@ -222,27 +247,18 @@ class SortieController extends AbstractController
         //verifier que la date limite d'inscription est ok
         if ($sortie->getDateLimiteInscription() > $today) {
 
-        $dql = "SELECT user_id FROM sortie_user " .
-        "WHERE sortie_id = ".$sortie->getId();
-        $resul = $this->getDoctrine()->getManager()->createQuery($dql)->getResult();
-        dump($resul);
-
-
-
             //verifier si pas dejà inscrit
-//            foreach ($inscrits as $inscrit) {
-//                if (! $inscrit->getId() === $user->getId()){
-                       $sortie->addUser($user);
-                    //enlever une place restante à chaque inscription
+            $sortie2 =  $repoSortie->findByIdVerifInscrit($user, $sortie);
+            if ($sortie2 == null) {
 
-                    if ($sortie->getNbrePlacesRestantes() > 0) {
-                        $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
-                    }
-                    $this->getDoctrine()->getManager()->flush();
-//                }
-//
-//            }
+                $sortie->addUser($user);
+                //enlever une place restante à chaque inscription
 
+                if ($sortie->getNbrePlacesRestantes() > 0) {
+                    $sortie->setNbrePlacesRestantes($sortie->getNbrePlacesRestantes() - 1);
+                }
+                $this->getDoctrine()->getManager()->flush();
+            }
         }
 
         return $this->redirectToRoute('accueil');

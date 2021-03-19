@@ -13,7 +13,7 @@
     <div>
         {{ form_start(form1) }}
         {{ form_widget(form1) }}
-        <button type="submit">Rechercher</button>
+        <button class="button" type="submit">Rechercher</button>
         {{ form_end(form1) }}
 
     </div>
@@ -61,7 +61,7 @@
         <th>Nom de la sortie</th>
         <th>Date de la sortie</th>
         <th>Clôture</th>
-        <th>inscrits/places</th>
+        <th>Places disponibles</th>
         <th>Etat</th>
         <th>Inscrit</th>
         <th>Organisateur</th>
@@ -109,11 +109,11 @@
                         {% if  s.dateLimiteInscription > date() %}
                             {% if s.nbrePlacesRestantes >0 %}
 {#                         TODO si l'user n'est pas déjà inscrit#}
-                                {% for u in s.users %}
-                                {% if u.id == app.user.id %}
+{#                                {% for u in s.users %}#}
+{#                                {% if u.id == app.user.id %}#}
                                     <a href="{{ path('sortie_inscrire', {'idUser': app.user.id , 'idSortie': s.id })}}">S'inscrire </a>
-                                {% endif %}
-                                {% endfor %}
+{#                                {% endif %}#}
+{#                                {% endfor %}#}
                             {% endif %}
                          {% endif %}
                 {% endif %}

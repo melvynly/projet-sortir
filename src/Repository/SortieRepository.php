@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+
+use App\Data\RechercheDonnees;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -50,7 +53,7 @@ class SortieRepository extends ServiceEntityRepository
     */
 
 
-    public function findSearch(\RechercheDonnees $search, $user):array
+    public function findSearch(RechercheDonnees $search, $user):array
     {
         $query = $this
             ->createQueryBuilder('s');
@@ -78,19 +81,23 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('orga',$user->getId());
         }
 
-//        if (!empty($search->inscrit)){
-//            $query = $query
-//                ->andWhere('s.id = :id')
-//                ->select('u','s')
-//               -> join('s.user','u')
-//                ->setParameter('id',$user->getId());
-//        }
-//
-//        if (!empty($search->pasInscrit)){
-//            $query = $query
-//                ->andWhere('s.nom LIKE :q ')
-//                ->setParameter('q',"%".$search->q."%");
-//        }
+        if (!empty($search->inscrit)){
+            $query = $query
+                ->leftJoin('s.users', 'u')
+                ->addSelect('u')
+                ->andWhere('u.id = :id')
+                ->setParameter('id',$user->getId());
+        }
+
+
+        if (!empty($search->pasInscrit)){
+            $query = $query
+                ->leftJoin('s.users', 'u')
+                ->addSelect('u')
+                ->andWhere(":id NOT MEMBER OF s.users")
+                ->setParameter("id", $user->getId());
+
+        }
 
         if (!empty($search->passee)){
             $query = $query
@@ -104,5 +111,18 @@ class SortieRepository extends ServiceEntityRepository
 
 
         return $query->getQuery()->getResult();
+    }
+    public function findByIdVerifInscrit ($user, $sortie) {
+        $query = $this
+            ->createQueryBuilder('s')
+            ->leftJoin('s.users', 'u')
+            ->addSelect('u')
+            ->andWhere('u.id = :idU')
+            ->andWhere('s.id = :idS')
+            ->setParameter('idU',$user->getId())
+
+            ->setParameter('idS',$sortie->getId());
+        return $query->getQuery()->getResult();
+
     }
 }

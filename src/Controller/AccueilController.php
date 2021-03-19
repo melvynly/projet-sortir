@@ -8,6 +8,10 @@ use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\SearchIndexType;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Data\RechercheDonnees;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,13 +24,14 @@ class AccueilController extends AbstractController
 {
     /**
      * @Route("/", name="accueil")
+     *
      */
-    public function index(Request $request, UserInterface $user, EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie, UserRepository $repoUser): Response
+    public function index(Request $request, UserInterface $user=null, EntityManagerInterface $em, EtatRepository $repoEtat, SiteRepository $repoSite, SortieRepository $repoSortie, UserRepository $repoUser): Response
     {
         $sites= $repoSite->findAll();
-       // $sorties = $repoSortie->findBy([],['dateHeureDebut' => 'desc']);
+        // $sorties = $repoSortie->findBy([],['dateHeureDebut' => 'desc']);
         // init data
-        $data = new \RechercheDonnees();
+        $data = new RechercheDonnees();
         //$data->page = $request->get('page', 1);
         // je cree un formulaire qui utilise la classe searchType que j'ai crée, et en 2eme parametre les données
         //$data, objet qui sera modifié quand je ferai un handlerequest ou autre
@@ -38,18 +43,25 @@ class AccueilController extends AbstractController
         $today=new \DateTime("now");
 
 
+
+
         foreach ($sorties as $s){
+
+            $userSortie = $repoSortie->findByIdVerifInscrit($user, $s);
+
+            if ($userSortie == null) {
+                $userSortie = false;
+            } else {
+                $userSortie = true;
+            }
+
             // Création du dateTime de la nouvelle méthode pour le pb d'affichage du tableau
             $d1 = new \DateTime($s->getDateHeureDebutFormat());
 
+            $duree= $s->getDuree();
+            //$dateFin = date_add($d1, date_interval_create_from_date_string("$duree minutes"));;
 
-            $dateDebut = $s->getDateHeureDebut();
-
-
-            //$duree= $s->getDuree();
-            //$dateFin = date_add($d1, date_interval_create_from_date_string("$duree day"));;
-
-            // si elle est annulée, créée ou publiée, pas de changement d'état
+            // si elle est annulée, pas de changement d'état
             if (!$s->getEtat()->getLibelle()=='Annulée'){}
             else {
 
@@ -68,7 +80,7 @@ class AccueilController extends AbstractController
                     $em->flush();
                 }
                 // si la date de debut + duree est dépaséee alors elle passe en passée
-                if ($today> $s->getDateHeureDebut()){
+                if ($today> date_add($d1, date_interval_create_from_date_string(" $duree minutes"))){
                     $etat= $repoEtat->findOneBy(["libelle" =>'Passée']);
                     $s->setEtat($etat);
                     $em->persist($etat);
@@ -86,15 +98,18 @@ class AccueilController extends AbstractController
 
         }
 
-
-
         return $this->render('accueil.html.twig', [
             'sorties'=>$sorties,
             'form1'=> $form1->createView(),
             'sites'=>$sites,
+            'userSortie'=> $userSortie
             //'sorties'=>$sorties,
 
         ]);
+
+
+
+
     }
 //
 //    public function filtre (Request $request)

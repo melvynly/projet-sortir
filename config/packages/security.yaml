@@ -52,3 +52,8 @@ security:
         - { path: ^/user, roles: [ROLE_ADMIN,ROLE_USER] }
         - { path: ^/sortie, roles: [ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/lieu, roles: [ROLE_ADMIN,ROLE_USER] }
+        - { path: ^/login, roles: [ROLE_ADMIN,ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY]}
+        - { path: ^/, roles: [ROLE_ADMIN,ROLE_USER] }
+
+
+
