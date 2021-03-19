@@ -38,16 +38,21 @@ class AccueilController extends AbstractController
         $today=new \DateTime("now");
 
 
+
+
         foreach ($sorties as $s){
+
+            $userSortie = $repoSortie->findByIdVerifInscrit($user, $s);
+
+            if ($userSortie == null) {
+                $userSortie = false;
+            } else {
+                $userSortie = true;
+            }
+
             // Création du dateTime de la nouvelle méthode pour le pb d'affichage du tableau
             $d1 = new \DateTime($s->getDateHeureDebutFormat());
 
-
-            $dateDebut = $s->getDateHeureDebut();
-
-
-            //$duree= $s->getDuree();
-            //$dateFin = date_add($d1, date_interval_create_from_date_string("$duree day"));;
 
             // si elle est annulée, créée ou publiée, pas de changement d'état
             if (!$s->getEtat()->getLibelle()=='Annulée'){}
@@ -92,6 +97,7 @@ class AccueilController extends AbstractController
             'sorties'=>$sorties,
             'form1'=> $form1->createView(),
             'sites'=>$sites,
+            'userSortie'=> $userSortie
             //'sorties'=>$sorties,
 
         ]);
