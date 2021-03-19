@@ -25,7 +25,7 @@ class UserType extends AbstractType
 
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'required' => false,
+                'required' => true,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'constraints' => array(
                     new Length(array('min' => 6)),
